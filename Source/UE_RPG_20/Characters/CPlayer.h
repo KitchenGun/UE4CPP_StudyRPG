@@ -2,7 +2,10 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "Component/CPP_StatusComponent.h"
+#include "Component/CPP_StateComponent.h"
 #include "CPlayer.generated.h"
+
 
 UCLASS()
 class UE_RPG_20_API ACPlayer  : public ACharacter
@@ -22,7 +25,11 @@ private:
 
 	UPROPERTY(VisibleDefaultsOnly)
 		class UCameraComponent* Camera;
-
+private:
+	UPROPERTY(VisibleDefaultsOnly)
+	class UCPP_StatusComponent* Status;
+	UPROPERTY(VisibleDefaultsOnly)
+	class UCPP_StateComponent* State;
 public:
 	ACPlayer();
 

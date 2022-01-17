@@ -7,11 +7,16 @@
 #include "Camera/CameraComponent.h"
 #include "Materials/MaterialInstanceDynamic.h"
 
+#include "Component/CPP_StatusComponent.h"
+#include "Component/CPP_StateComponent.h"
+
 ACPlayer::ACPlayer()
 {
 	CHelpers::CreateComponent<USpringArmComponent>(this, &SpringArm, "SpringArm", GetMesh());
 	CHelpers::CreateComponent<UCameraComponent>(this, &Camera, "Camera", SpringArm);
 
+	CHelpers::CreateActorComponent<UCPP_StatusComponent>(this, &Status, "Status");
+	CHelpers::CreateActorComponent<UCPP_StateComponent>(this, &State, "State");
 	bUseControllerRotationYaw = false;
 
 	GetMesh()->SetRelativeLocation(FVector(0, 0, -90));
@@ -31,11 +36,12 @@ ACPlayer::ACPlayer()
 	SpringArm->TargetArmLength = 200;
 	SpringArm->bDoCollisionTest = false;
 	SpringArm->bUsePawnControlRotation = true;
+	//pawn에 카메라를 붙인다
 	SpringArm->bEnableCameraLag = true;
-
+	//회전값을 720 만큼 설정할수있다
 	GetCharacterMovement()->RotationRate = FRotator(0, 720, 0);
 	GetCharacterMovement()->bOrientRotationToMovement = true;
-	GetCharacterMovement()->MaxWalkSpeed = 600;
+	GetCharacterMovement()->MaxWalkSpeed = Status->GetSprintSpeed();
 }
 
 void ACPlayer::BeginPlay()
@@ -56,6 +62,9 @@ void ACPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 void ACPlayer::OnMoveForward(float InAxis)
 {
+	//if(p == false) return; 와 같은 의미
+	CheckFalse(Status->CanMove());
+
 	FRotator rotator = FRotator(0, GetControlRotation().Yaw, 0);
 	FVector direction = FQuat(rotator).GetForwardVector();
 
@@ -64,6 +73,8 @@ void ACPlayer::OnMoveForward(float InAxis)
 
 void ACPlayer::OnMoveRight(float InAxis)
 {
+	CheckFalse(Status->CanMove());
+
 	FRotator rotator = FRotator(0, GetControlRotation().Yaw, 0);
 	FVector direction = FQuat(rotator).GetRightVector();
 
