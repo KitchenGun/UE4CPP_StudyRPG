@@ -31,10 +31,15 @@ private:
 	class UCPP_StatusComponent* Status;
 
 	bool bEquipped = false;
+
+	int32 Index;
+	bool bEnable;
+	bool bExist;
 private:
 	UPROPERTY(EditDefaultsOnly)
 	class UAnimMontage* EquipMontage;
-
+	UPROPERTY(EditDefaultsOnly)
+	class UAnimMontage* ComboMontage[3];
 public:	
 	ACPP_Sword();
 
@@ -47,7 +52,14 @@ public:
 	void OnCollision();
 	void OffCollision();
 
+	void Action();
+	void Begin_Action();
+	void End_Action();
+
 	FORCEINLINE bool GetEquipped() const { return bEquipped; }
+
+	FORCEINLINE void Enable_Combo() { bEnable = true;}
+	FORCEINLINE void Disable_Combo() { bEnable = false; }
 protected:
 	virtual void BeginPlay() override;
 

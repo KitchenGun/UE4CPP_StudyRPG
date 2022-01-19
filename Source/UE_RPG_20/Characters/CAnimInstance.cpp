@@ -25,6 +25,4 @@ void UCAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 	ACPlayer* player = Cast<ACPlayer>(OwnerCharacter);
 	if (player)
 		bEquipped = player->GetSword()->GetEquipped();
-
-	CLog::Log(bEquipped);
 }

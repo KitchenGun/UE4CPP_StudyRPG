@@ -46,6 +46,7 @@ private:
 	void OnVerticalLook(float InAxis);
 
 	void OnOneHand();
+	void OnAction();
 	private:
 		UPROPERTY(EditDefaultsOnly, Category = "Sword")
 		TSubclassOf<class ACPP_Sword> SwordClass;

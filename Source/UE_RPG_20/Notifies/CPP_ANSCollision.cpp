@@ -1,9 +1,9 @@
-#include "Notifies/CPP_ANSCombo.h"
+#include "Notifies/CPP_ANSCollision.h"
 #include "Global.h"
 #include "CPP_Sword.h"
 #include "Characters/CPlayer.h"
 
-void UCPP_ANSCombo::NotifyBegin(USkeletalMeshComponent* MeshComp, UAnimSequenceBase* Animation, float TotalDuration)
+void UCPP_ANSCollision::NotifyBegin(USkeletalMeshComponent* MeshComp, UAnimSequenceBase* Animation, float TotalDuration)
 {
 	Super::NotifyBegin(MeshComp, Animation, TotalDuration);
 	CheckNull(MeshComp);
@@ -12,10 +12,10 @@ void UCPP_ANSCombo::NotifyBegin(USkeletalMeshComponent* MeshComp, UAnimSequenceB
 	ACPlayer* player = Cast<ACPlayer>(MeshComp->GetOwner());
 	CheckNull(player);
 
-	player->GetSword()->Enable_Combo();
+	player->GetSword()->OnCollision();
 }
 
-void UCPP_ANSCombo::NotifyEnd(USkeletalMeshComponent* MeshComp, UAnimSequenceBase* Animation)
+void UCPP_ANSCollision::NotifyEnd(USkeletalMeshComponent* MeshComp, UAnimSequenceBase* Animation)
 {
 	Super::NotifyEnd(MeshComp, Animation);
 	CheckNull(MeshComp);
@@ -24,5 +24,5 @@ void UCPP_ANSCombo::NotifyEnd(USkeletalMeshComponent* MeshComp, UAnimSequenceBas
 	ACPlayer* player = Cast<ACPlayer>(MeshComp->GetOwner());
 	CheckNull(player);
 
-	player->GetSword()->Disable_Combo();
+	player->GetSword()->OffCollision();
 }

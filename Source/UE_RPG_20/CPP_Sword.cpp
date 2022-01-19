@@ -25,6 +25,9 @@ ACPP_Sword::ACPP_Sword()
 	Capsule->SetCapsuleRadius(11);
 
 	CHelpers::GetAsset<UAnimMontage>(&EquipMontage, "AnimMontage'/Game/Character/Montages/OneHand/Draw_Sword_Montage.Draw_Sword_Montage'");
+	CHelpers::GetAsset<UAnimMontage>(&ComboMontage[0], "AnimMontage'/Game/Character/Montages/OneHand/Sword_Attack_1_Montage.Sword_Attack_1_Montage'");
+	CHelpers::GetAsset<UAnimMontage>(&ComboMontage[1], "AnimMontage'/Game/Character/Montages/OneHand/Sword_Attack_2_Montage.Sword_Attack_2_Montage'");
+	CHelpers::GetAsset<UAnimMontage>(&ComboMontage[2], "AnimMontage'/Game/Character/Montages/OneHand/Sword_Attack_3_Montage.Sword_Attack_3_Montage'");
 }
 
 void ACPP_Sword::Equip()
@@ -73,6 +76,39 @@ void ACPP_Sword::OffCollision()
 	Capsule->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }
 
+void ACPP_Sword::Action()
+{
+	CheckFalse(bEquipped);
+	if (bEnable)
+	{
+		bExist = true;
+		bEnable = false;
+		return;
+	}
+	CheckFalse(State->IsIdleMode());
+
+	Status->Stop();
+	State->SetActionMode();
+
+	OwnerCharacter->PlayAnimMontage(ComboMontage[Index],1.5f);
+}
+
+void ACPP_Sword::Begin_Action()
+{
+	CheckFalse(bExist);
+	bExist = false;
+
+	OwnerCharacter->PlayAnimMontage(ComboMontage[++Index],1.5f);
+}
+
+void ACPP_Sword::End_Action()
+{
+	Index =0;
+
+	Status->Move();
+	State->SetIdleMode();
+}
+
 void ACPP_Sword::BeginPlay()
 {
 	Super::BeginPlay();
@@ -87,6 +123,9 @@ void ACPP_Sword::BeginPlay()
 
 void ACPP_Sword::OnComponentBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-
+//데미지 구현
+	CheckTrue(OtherActor == OwnerCharacter);
+	FDamageEvent DE;
+	OtherActor->TakeDamage(20,DE,OwnerCharacter->GetController(),this);
 }
 

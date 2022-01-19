@@ -69,6 +69,7 @@ void ACPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	PlayerInputComponent->BindAxis("VerticalLook", this, &ACPlayer::OnVerticalLook);
 
 	PlayerInputComponent->BindAction("OneHand", IE_Pressed, this, &ACPlayer::OnOneHand);
+	PlayerInputComponent->BindAction("Action", IE_Pressed, this, &ACPlayer::OnAction);
 }
 
 void ACPlayer::OnMoveForward(float InAxis)
@@ -105,4 +106,9 @@ void ACPlayer::OnVerticalLook(float InAxis)
 void ACPlayer::OnOneHand()
 {
 	Sword->Equip();
+}
+
+void ACPlayer::OnAction()
+{
+	Sword->Action();
 }
