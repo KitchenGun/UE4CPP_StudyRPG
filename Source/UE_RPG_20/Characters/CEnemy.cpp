@@ -6,11 +6,13 @@
 #include "Materials/MaterialInstanceDynamic.h"
 #include "Component/CPP_StatusComponent.h"
 #include "Component/CPP_StateComponent.h"
+#include "Component/CPP_MontageComponent.h"
 
 ACEnemy::ACEnemy()
 {
 	CHelpers::CreateActorComponent<UCPP_StatusComponent>(this, &Status, "Status");
 	CHelpers::CreateActorComponent<UCPP_StateComponent>(this, &State, "State");
+	CHelpers::CreateActorComponent<UCPP_MontageComponent>(this,&Montage,"Montage");
 
 	GetMesh()->SetRelativeLocation(FVector(0, 0, -90));
 	GetMesh()->SetRelativeRotation(FRotator(0, -90, 0));
@@ -28,9 +30,12 @@ ACEnemy::ACEnemy()
 void ACEnemy::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	//state에 있는OnStateTypeChanged를 ACEnemy::OnStateTypeChanged로 바인딩하겠다.
+	State->OnStateTypeChanged.AddDynamic(this,&ACEnemy::OnStateTypeChanged);
+
 	int count =0;
 	TArray<UMaterialInterface*> materials = GetMesh()->GetMaterials();
+
 	for (UMaterialInterface* material : materials)
 	{
 		UMaterialInstanceDynamic* dynamic = UMaterialInstanceDynamic::Create(material,this);
@@ -41,6 +46,29 @@ void ACEnemy::BeginPlay()
 	Change_Character_Color(OriginColor);
 }
 
+void ACEnemy::OnStateTypeChanged(EStateType InType)
+{
+	switch (InType)
+	{
+	case EStateType::Idle:
+		break;
+	case EStateType::Equip:
+		break;
+	case EStateType::Hitted:
+		Hitted();
+		break;
+	case EStateType::Dead:
+		Dead();
+		break;
+	case EStateType::Action:
+		break;
+	case EStateType::MAX:
+		break;
+	default:
+		break;
+	}
+}
+
 void ACEnemy::Change_Character_Color(FLinearColor InColor)
 {
 	for (UMaterialInstanceDynamic* material : Materials)
@@ -49,9 +77,42 @@ void ACEnemy::Change_Character_Color(FLinearColor InColor)
 	}
 }
 
+void ACEnemy::Hitted()
+{
+	Montage->PlayHittedMode();
+	Change_Character_Color(FLinearColor::Red);
+	FTimerHandle timerHandle;
+
+	FTimerDelegate timerDelegate = FTimerDelegate::CreateLambda([=]()
+	{
+		Change_Character_Color(OriginColor);
+	});
+	GetWorld()->GetTimerManager().SetTimer(timerHandle,timerDelegate,0.2f,false);//몇초뒤에 timerDelegate 함수를 실행할 것인가를 결정하는 것 뒤에 매개변수를 추가로 더하면 a+0.2f뒤에 실행하는것이 됨 
+
+	Status->SubHealth(Damaged.DamageAmount);
+	Damaged.DamageAmount=0.0f;
+
+	if (Status->GetHP() < 0.0f)
+	{
+		State->SetDeadMode();
+		return;
+	}
+	FVector start = GetActorLocation();
+	FVector target = Damaged.EventInstigator->GetPawn()->GetActorLocation();
+	SetActorRotation(UKismetMathLibrary::FindLookAtRotation(start,target));
+	Damaged.EventInstigator =NULL;
+}
+
+void ACEnemy::Dead()
+{
+
+}
+
 float ACEnemy::TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser)
 {
 	Super::TakeDamage(DamageAmount,DamageEvent,EventInstigator,DamageCauser);
-
+	Damaged.DamageAmount = DamageAmount;
+	Damaged.EventInstigator = EventInstigator;
+	State->SetHittedMode();
 	return DamageAmount;
 }

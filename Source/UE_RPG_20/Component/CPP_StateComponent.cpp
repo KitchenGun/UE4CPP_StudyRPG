@@ -39,4 +39,7 @@ void UCPP_StateComponent::SetActionMode()
 void  UCPP_StateComponent::ChangeType(EStateType InType)
 {
 	Type = InType;
+	
+	if(OnStateTypeChanged.IsBound())//바인딩이 되어있다면 호출한다
+		OnStateTypeChanged.Broadcast(InType);//대리자 호출
 }

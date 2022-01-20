@@ -15,6 +15,11 @@ enum class EStateType :uint8
 	MAX
 };
 
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FStateTypeChanged, EStateType, InNewType);
+
+//매개변수 하나를 대리자 동적으로 여러곳에 호출 (이름 ,형식,변수)
+
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class UE_RPG_20_API UCPP_StateComponent : public UActorComponent
 {
@@ -42,9 +47,11 @@ public:
 	void SetActionMode();
 protected:
 	virtual void BeginPlay() override;
+
 private:
 	void ChangeType(EStateType InType);
-
+public:
+	FStateTypeChanged OnStateTypeChanged;
 private:
 	EStateType Type;
 };
