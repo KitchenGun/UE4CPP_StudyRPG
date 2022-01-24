@@ -4,6 +4,7 @@
 #include "UObject/NoExportTypes.h"
 #include "CPP_WeaponStructures.generated.h"
 
+
 USTRUCT(BlueprintType)
 struct FDoActionData
 {
@@ -55,7 +56,7 @@ public:
 	class USoundCue* SoundCue;
 public:
 	void PlayMontage(class ACharacter* InOwner);
-	void PlayEffect(class UWorld* InWorld, class ACharacter* InOwner);
+	void PlayEffect(class UWorld* InWorld,const FTransform& InTransform);
 	void PlayEffect(class USkeletalMeshComponent* InMesh, FName InSocketName = NAME_None);
 
 	void PlaySoundCue(class UWorld* InWorld,const FVector& InLocation);
@@ -63,11 +64,21 @@ public:
 	void SendDamage(class ACharacter* InAttacker,class AActor* InAttackerCursor,class ACharacter* InOtherCharacter);
 };
 
+USTRUCT(BlueprintType)
+struct FActionDamageEvent :public FDamageEvent
+{
+	GENERATED_BODY()
+public:
+	FHitData* HitData;
+};
+
 UCLASS()
 class UE_RPG_20_API UCPP_WeaponStructures : public UObject
 {
 	GENERATED_BODY()
-
 public:
 	UCPP_WeaponStructures();
+	FORCEINLINE static class UAnimMontage* GetDefaultHitMontage() {return DefaultHitMontage;}
+private:
+	static class UAnimMontage* DefaultHitMontage;
 };
