@@ -41,8 +41,8 @@ void UCPP_Equipment::Equip_Implementation()
 
 void UCPP_Equipment::Begin_Equip_Implementation()
 {
-	if(OnEquip().IsBound())
-		OnEquip().Broadcast();
+	if(OnEquip.IsBound())
+		OnEquip.Broadcast();
 
 }
 
@@ -59,6 +59,6 @@ void UCPP_Equipment::UnEquip_Implementation()
 bEquipping = false;
 	OwnerCharacter->bUseControllerRotationYaw=false;
 	OwnerCharacter->GetCharacterMovement()->bOrientRotationToMovement = true;
-	if(OnUnEquip().IsBound())
-		OnUnEquip().Broadcast();
+	if(OnUnEquip.IsBound())
+		OnUnEquip.Broadcast();
 }

@@ -48,8 +48,8 @@ public:
 	virtual void UnEquip_Implementation();
 
 public://대리자 선언
-	FEquipAndUnEquip OnEquip();
-	FEquipAndUnEquip OnUnEquip();
+	FEquipAndUnEquip OnEquip;
+	FEquipAndUnEquip OnUnEquip;
 
 protected:
 	class ACharacter* OwnerCharacter;
