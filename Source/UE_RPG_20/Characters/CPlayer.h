@@ -30,6 +30,8 @@ private:
 	class UCPP_StatusComponent* Status;
 	UPROPERTY(VisibleDefaultsOnly)
 	class UCPP_StateComponent* State;
+	UPROPERTY(VisibleDefaultsOnly)
+	class UCPP_WeaponComponent* Weapon;
 public:
 	ACPlayer();
 
