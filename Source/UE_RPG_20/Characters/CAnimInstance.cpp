@@ -11,6 +11,11 @@ void UCAnimInstance::NativeBeginPlay()
 
 	OwnerCharacter = Cast<ACharacter>(TryGetPawnOwner());
 	CheckNull(OwnerCharacter);
+
+	Weapon = CHelpers::GetComponent<UCPP_WeaponComponent>(OwnerCharacter);
+
+	if(Weapon)
+		Weapon->OnWeaponTypeChanged.AddDynamic(this,&UCAnimInstance::OnWeaponTypeChanged);
 }
 
 void UCAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
@@ -22,7 +27,12 @@ void UCAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 	Direction = CalculateDirection(OwnerCharacter->GetVelocity(), OwnerCharacter->GetControlRotation());
 	Pitch = OwnerCharacter->GetBaseAimRotation().Pitch;
 
-	ACPlayer* player = Cast<ACPlayer>(OwnerCharacter);
-	if (player)
-		bEquipped = player->GetSword()->GetEquipped();
+	//ACPlayer* player = Cast<ACPlayer>(OwnerCharacter);
+	//if (player)
+	//	bEquipped = player->GetSword()->GetEquipped();
+}
+
+void UCAnimInstance::OnWeaponTypeChanged(EWeaponType InNewType)
+{
+	WeaponType = InNewType;
 }

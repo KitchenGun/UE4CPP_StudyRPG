@@ -1,7 +1,7 @@
 #include "Notifies/CPP_ANEndDoAction.h"
 #include "Global.h"
-#include "CPP_Sword.h"
-#include "Characters/CPlayer.h"
+#include "Weapon/CPP_WeaponComponent.h"
+#include "Weapon/CPP_DoAction.h"
 
 void UCPP_ANEndDoAction::Notify(USkeletalMeshComponent* MeshComp, UAnimSequenceBase* Animation)
 {
@@ -9,8 +9,13 @@ void UCPP_ANEndDoAction::Notify(USkeletalMeshComponent* MeshComp, UAnimSequenceB
 	CheckNull(MeshComp);
 	CheckNull(MeshComp->GetOwner());
 
-	ACPlayer* player = Cast<ACPlayer>(MeshComp->GetOwner());
-	CheckNull(player);
+	UCPP_WeaponComponent* weapon = CHelpers::GetComponent<UCPP_WeaponComponent>(MeshComp->GetOwner());
+	CheckNull(weapon);
 
-	player->GetSword()->End_Action();
+	weapon->GetDoAction()->EndDoAction();
+
+	//ACPlayer* player = Cast<ACPlayer>(MeshComp->GetOwner());
+	//CheckNull(player);
+	//
+	//player->GetSword()->End_Action();
 }

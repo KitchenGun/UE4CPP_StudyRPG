@@ -47,6 +47,8 @@ public:
 	void UnEquip();
 	virtual void UnEquip_Implementation();
 
+	FORCEINLINE const bool* IsEquipping() {return &bEquipping;}
+
 public://대리자 선언
 	FEquipAndUnEquip OnEquip;
 	FEquipAndUnEquip OnUnEquip;

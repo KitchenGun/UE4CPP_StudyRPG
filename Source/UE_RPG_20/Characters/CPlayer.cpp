@@ -11,7 +11,7 @@
 #include "Component/CPP_StatusComponent.h"
 #include "Component/CPP_StateComponent.h"
 #include "Weapon/CPP_WeaponComponent.h"
-#include "CPP_Sword.h"
+//#include "CPP_Sword.h"
 
 
 ACPlayer::ACPlayer()
@@ -50,17 +50,17 @@ ACPlayer::ACPlayer()
 	GetCharacterMovement()->bOrientRotationToMovement = true;
 	GetCharacterMovement()->MaxWalkSpeed = Status->GetSprintSpeed();
 
-	CHelpers::GetClass<ACPP_Sword>(&SwordClass, "Blueprint'/Game/BP_Sword.BP_Sword_C'");
+	//CHelpers::GetClass<ACPP_Sword>(&SwordClass, "Blueprint'/Game/BP_Sword.BP_Sword_C'");
 }
 
 void ACPlayer::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	FActorSpawnParameters params;
-	params.Owner = this;
-	Sword = GetWorld()->SpawnActor<ACPP_Sword>(SwordClass, params);
-	Sword->AttachToComponent(GetMesh(), FAttachmentTransformRules(EAttachmentRule::KeepRelative, true), "Holster_OneHand");
+	//FActorSpawnParameters params;
+	//params.Owner = this;
+	//Sword = GetWorld()->SpawnActor<ACPP_Sword>(SwordClass, params);
+	//Sword->AttachToComponent(GetMesh(), FAttachmentTransformRules(EAttachmentRule::KeepRelative, true), "Holster_OneHand");
 }
 
 void ACPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -109,10 +109,14 @@ void ACPlayer::OnVerticalLook(float InAxis)
 
 void ACPlayer::OnOneHand()
 {
-	Sword->Equip();
+	//Sword->Equip();
+	CheckFalse(State->IsIdleMode());
+
+	Weapon->SetOneHandMode();
 }
 
 void ACPlayer::OnAction()
 {
-	Sword->Action();
+	//Sword->Action();
+	Weapon->DoAction();
 }

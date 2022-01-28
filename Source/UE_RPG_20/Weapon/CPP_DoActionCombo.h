@@ -10,6 +10,8 @@ class UE_RPG_20_API UCPP_DoActionCombo : public UCPP_DoAction
 	GENERATED_BODY()
 public:
 
+	FORCEINLINE void Enable_Combo()	 { bEnable =true; }
+	FORCEINLINE void Disable_Combo() { bEnable = false; }
 	virtual void DoAction() override;
 	virtual void BeginDoAction() override;
 	virtual void EndDoAction() override;

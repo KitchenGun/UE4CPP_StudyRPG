@@ -1,8 +1,8 @@
 
 #include "Notifies/CPP_ANSEquip.h"
 #include "Global.h"
-#include "CPP_Sword.h"
-#include "Characters/CPlayer.h"
+#include "Weapon/CPP_WeaponComponent.h"
+#include "Weapon/CPP_Equipment.h"
 
 //FString UCPP_ANSEquip::GetNotifyName_Implementation() const
 //{
@@ -15,10 +15,14 @@ void UCPP_ANSEquip::NotifyBegin(USkeletalMeshComponent* MeshComp, UAnimSequenceB
 	CheckNull(MeshComp);
 	CheckNull(MeshComp->GetOwner());
 
-	ACPlayer* player = Cast<ACPlayer>(MeshComp->GetOwner());
-	CheckNull(player);
+	//ACPlayer* player = Cast<ACPlayer>(MeshComp->GetOwner());
+	//CheckNull(player);
+	//player->GetSword()->End_Equip();
 
-	player->GetSword()->Begin_Equip();
+	UCPP_WeaponComponent* weapon = CHelpers::GetComponent<UCPP_WeaponComponent>(MeshComp->GetOwner());
+	CheckNull(weapon);
+
+	weapon->GetEquipment()->Begin_Equip();
 }
 
 void UCPP_ANSEquip::NotifyEnd(USkeletalMeshComponent* MeshComp, UAnimSequenceBase* Animation)
@@ -27,8 +31,12 @@ void UCPP_ANSEquip::NotifyEnd(USkeletalMeshComponent* MeshComp, UAnimSequenceBas
 	CheckNull(MeshComp);
 	CheckNull(MeshComp->GetOwner());
 
-	ACPlayer* player = Cast<ACPlayer>(MeshComp->GetOwner());
-	CheckNull(player);
+	UCPP_WeaponComponent* weapon = CHelpers::GetComponent<UCPP_WeaponComponent>(MeshComp->GetOwner());
+	CheckNull(weapon);
 
-	player->GetSword()->End_Equip();
+	weapon->GetEquipment()->End_Equip();
+	//ACPlayer* player = Cast<ACPlayer>(MeshComp->GetOwner());
+	//CheckNull(player);
+	//
+	//player->GetSword()->End_Equip();
 }

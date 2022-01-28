@@ -1,7 +1,7 @@
 #include "Notifies/CPP_ANSCombo.h"
 #include "Global.h"
-#include "CPP_Sword.h"
-#include "Characters/CPlayer.h"
+#include "Weapon/CPP_WeaponComponent.h"
+#include "Weapon/CPP_DoActionCombo.h"
 
 void UCPP_ANSCombo::NotifyBegin(USkeletalMeshComponent* MeshComp, UAnimSequenceBase* Animation, float TotalDuration)
 {
@@ -9,10 +9,17 @@ void UCPP_ANSCombo::NotifyBegin(USkeletalMeshComponent* MeshComp, UAnimSequenceB
 	CheckNull(MeshComp);
 	CheckNull(MeshComp->GetOwner());
 
-	ACPlayer* player = Cast<ACPlayer>(MeshComp->GetOwner());
-	CheckNull(player);
+	UCPP_WeaponComponent* weapon = CHelpers::GetComponent<UCPP_WeaponComponent>(MeshComp->GetOwner());
+	CheckNull(weapon);
 
-	player->GetSword()->Enable_Combo();
+	UCPP_DoActionCombo* combo = Cast<UCPP_DoActionCombo>(weapon->GetDoAction());
+	
+
+	combo->Enable_Combo();
+	//ACPlayer* player = Cast<ACPlayer>(MeshComp->GetOwner());
+	//CheckNull(player);
+	//
+	//player->GetSword()->Enable_Combo();
 }
 
 void UCPP_ANSCombo::NotifyEnd(USkeletalMeshComponent* MeshComp, UAnimSequenceBase* Animation)
@@ -21,8 +28,14 @@ void UCPP_ANSCombo::NotifyEnd(USkeletalMeshComponent* MeshComp, UAnimSequenceBas
 	CheckNull(MeshComp);
 	CheckNull(MeshComp->GetOwner());
 
-	ACPlayer* player = Cast<ACPlayer>(MeshComp->GetOwner());
-	CheckNull(player);
 
-	player->GetSword()->Disable_Combo();
+	UCPP_WeaponComponent* weapon = CHelpers::GetComponent<UCPP_WeaponComponent>(MeshComp->GetOwner());
+	CheckNull(weapon);
+
+	UCPP_DoActionCombo* combo = Cast<UCPP_DoActionCombo>(weapon->GetDoAction());
+	combo->Disable_Combo();
+	//ACPlayer* player = Cast<ACPlayer>(MeshComp->GetOwner());
+	//CheckNull(player);
+	//
+	//player->GetSword()->Disable_Combo();
 }

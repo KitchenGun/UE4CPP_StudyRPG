@@ -1,7 +1,7 @@
 #include "Notifies/CPP_ANBeginDoAction.h"
+#include "Weapon/CPP_WeaponComponent.h"
+#include "Weapon/CPP_DoAction.h"
 #include "Global.h"
-#include "CPP_Sword.h"
-#include "Characters/CPlayer.h"
 
 void UCPP_ANBeginDoAction::Notify(USkeletalMeshComponent* MeshComp, UAnimSequenceBase* Animation)
 {
@@ -9,9 +9,14 @@ void UCPP_ANBeginDoAction::Notify(USkeletalMeshComponent* MeshComp, UAnimSequenc
 	CheckNull(MeshComp);
 	CheckNull(MeshComp->GetOwner());
 
-	ACPlayer* player = Cast<ACPlayer>(MeshComp->GetOwner());
-	CheckNull(player);
+	UCPP_WeaponComponent* weapon = CHelpers::GetComponent<UCPP_WeaponComponent>(MeshComp->GetOwner());
+	CheckNull(weapon);
 
-	player->GetSword()->Begin_Action();
+	weapon->GetDoAction()->BeginDoAction();
+
+	//ACPlayer* player = Cast<ACPlayer>(MeshComp->GetOwner());
+	//CheckNull(player);
+
+	//player->GetSword()->Begin_Action();
 }
 
