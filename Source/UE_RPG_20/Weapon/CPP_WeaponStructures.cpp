@@ -122,7 +122,7 @@ void FHitData::PlayHitStop(UWorld* InWorld)
 	});
 
 	FTimerHandle timerHandle;
-	InWorld->GetTimerManager().SetTimer(timerHandle,timerDelegate,StopTime,false);
+	InWorld->GetTimerManager().SetTimer(timerHandle,timerDelegate,StopTime*0.001f,false);
 }
 
 void FHitData::SendDamage(ACharacter* InAttacker, AActor* InAttackerCursor, ACharacter* InOtherCharacter)

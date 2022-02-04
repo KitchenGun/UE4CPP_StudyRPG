@@ -27,6 +27,9 @@ void ACPP_Attachment::OnCollision()
 	{
 		collision->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 	}
+
+	if(OnAttachmentCollision.IsBound())
+		OnAttachmentCollision.Broadcast();
 }
 
 void ACPP_Attachment::OffCollision()
@@ -35,6 +38,8 @@ void ACPP_Attachment::OffCollision()
 	{
 		collision->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	}
+	if (OffAttachmentCollision.IsBound())
+		OffAttachmentCollision.Broadcast();
 }
 
 

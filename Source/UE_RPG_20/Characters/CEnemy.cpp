@@ -7,6 +7,7 @@
 #include "Component/CPP_StatusComponent.h"
 #include "Component/CPP_StateComponent.h"
 #include "Component/CPP_MontageComponent.h"
+#include "Weapon/CPP_WeaponStructures.h"
 
 ACEnemy::ACEnemy()
 {
@@ -79,7 +80,7 @@ void ACEnemy::Change_Character_Color(FLinearColor InColor)
 
 void ACEnemy::Hitted()
 {
-	Montage->PlayHittedMode();
+	//Montage->PlayHittedMode();
 	Change_Character_Color(FLinearColor::Red);
 	FTimerHandle timerHandle;
 
@@ -99,6 +100,26 @@ void ACEnemy::Hitted()
 	}
 	FVector start = GetActorLocation();
 	FVector target = Damaged.EventInstigator->GetPawn()->GetActorLocation();
+
+
+
+	if (Damaged.DamageEvent && Damaged.DamageEvent->HitData)
+	{
+		FHitData* data = Damaged.DamageEvent->HitData;
+		data->PlayMontage(this);
+
+		FTransform transform;
+		transform.SetLocation(GetActorLocation());
+
+		data->PlayEffect(GetWorld(),transform);
+		data->PlayHitStop(GetWorld());
+		data->PlaySoundCue((GetWorld()),GetActorLocation());
+
+		FVector direction = target - start;
+		direction.Normalize();
+		LaunchCharacter(-direction*300,true,false);
+	}
+	Damaged.DamageEvent = NULL;
 	SetActorRotation(UKismetMathLibrary::FindLookAtRotation(start,target));
 	Damaged.EventInstigator =NULL;
 }
@@ -113,6 +134,7 @@ float ACEnemy::TakeDamage(float DamageAmount, struct FDamageEvent const& DamageE
 	Super::TakeDamage(DamageAmount,DamageEvent,EventInstigator,DamageCauser);
 	Damaged.DamageAmount = DamageAmount;
 	Damaged.EventInstigator = EventInstigator;
+	Damaged.DamageEvent = (FActionDamageEvent*)&DamageEvent;
 	State->SetHittedMode();
 	return DamageAmount;
 }

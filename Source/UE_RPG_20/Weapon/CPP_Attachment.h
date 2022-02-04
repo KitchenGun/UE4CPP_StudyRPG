@@ -5,7 +5,7 @@
 #include "CPP_Attachment.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FAttachmentOverlap,class ACharacter*,InAttacker,class AActor*, InAttackCauser,class ACharacter*, InOtherCharacter);
-
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FAttachmentCollision);
 
 UCLASS()
 class UE_RPG_20_API ACPP_Attachment : public AActor
@@ -53,4 +53,7 @@ protected:
 public:
 	FAttachmentOverlap OnAttachmentBeginOverlap;
 	FAttachmentOverlap OnAttachmentEndOverlap;
+
+	FAttachmentCollision OnAttachmentCollision;
+	FAttachmentCollision OffAttachmentCollision;
 };

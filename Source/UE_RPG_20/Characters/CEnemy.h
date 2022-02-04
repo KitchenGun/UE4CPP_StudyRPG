@@ -41,6 +41,7 @@ private:
 	{
 		float DamageAmount;
 		class AController* EventInstigator;
+		struct FActionDamageEvent* DamageEvent;
 	}Damaged;
 
 	TArray<class UMaterialInstanceDynamic*> Materials;

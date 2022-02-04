@@ -7,8 +7,8 @@
 
 UCPP_WeaponAsset::UCPP_WeaponAsset()
 {
-	EquipmentClass = 
-	DoActionClass = 
+	CHelpers::GetClass<UCPP_Equipment>(&EquipmentClass,"Blueprint'/Game/Weapons/BP_CEquipment.BP_CEquipment_C'");
+	DoActionClass = UCPP_DoAction::StaticClass();
 }
 
 void UCPP_WeaponAsset::BeginPlay(ACharacter* InOwner)
@@ -17,35 +17,39 @@ void UCPP_WeaponAsset::BeginPlay(ACharacter* InOwner)
 	{
 		FActorSpawnParameters params;
 		params.Owner = InOwner;
-		Attachment = InOwner->GetWorld()->SpawnActor<ACPP_Attachment>(AttachmentClass,params);
+
+		Attachment = InOwner->GetWorld()->SpawnActor<ACPP_Attachment>(AttachmentClass, params);
 	}
 	if (EquipmentClass)
 	{
-		Equipment = NewObject<UCPP_Equipment>(this,EquipmentClass);
+		Equipment = NewObject<UCPP_Equipment>(this, EquipmentClass);
+		Equipment->BeginPlay(InOwner, EquipmentData);
 		if (Attachment)
 		{
-			Equipment->OnEquip.AddDynamic(Attachment,&ACPP_Attachment::OnEquip);
-			Equipment->OnUnEquip.AddDynamic(Attachment,&ACPP_Attachment::OnUnEquip);
+			Equipment->OnEquip.AddDynamic(Attachment, &ACPP_Attachment::OnEquip);
+			Equipment->OnUnEquip.AddDynamic(Attachment, &ACPP_Attachment::OnUnEquip);
 		}
 	}
 	if (DoActionClass)
 	{
-		DoAction = NewObject<UCPP_DoAction>(this,DoActionClass);
-		DoAction->BeginPlay(Attachment,InOwner,DoActionDatas,HitDatas);
+		DoAction = NewObject<UCPP_DoAction>(this, DoActionClass);
+		DoAction->BeginPlay(Attachment, InOwner, DoActionDatas, HitDatas);
 
-		if(Equipment)
+		if (Equipment)
 		{
 			DoAction->SetEquipping(Equipment->IsEquipping());
-			Equipment->OnEquip.AddDynamic(DoAction,&UCPP_DoAction::OnEquip);
-			Equipment->OnEquip.AddDynamic(DoAction, &UCPP_DoAction::OnUnEquip);
+			Equipment->OnEquip.AddDynamic(DoAction, &UCPP_DoAction::OnEquip);
+			Equipment->OnUnEquip.AddDynamic(DoAction, &UCPP_DoAction::OnUnEquip);
 		}
 		if (Attachment)
 		{
-			Attachment->OnAttachmentBeginOverlap.AddDynamic(DoAction,&UCPP_DoAction::OnAttachmentBeginOverlap);
-			Attachment->OnAttachmentEndOverlap.AddDynamic(DoAction,&UCPP_DoAction::OnAttachmentEndOverlap);
+			Attachment->OnAttachmentBeginOverlap.AddDynamic(DoAction, &UCPP_DoAction::OnAttachmentBeginOverlap);
+			Attachment->OnAttachmentEndOverlap.AddDynamic(DoAction, &UCPP_DoAction::OnAttachmentEndOverlap);
+
+			Attachment->OnAttachmentCollision.AddDynamic(DoAction, &UCPP_DoAction::OnAttachmentCollision);
+			Attachment->OffAttachmentCollision.AddDynamic(DoAction, &UCPP_DoAction::OffAttachmentCollision);
 		}
 	}
-
 }
 
 void UCPP_WeaponAsset::EndPlay()
