@@ -76,7 +76,7 @@ void UCPP_WeaponComponent::ChangeType(EWeaponType InType)
 void UCPP_WeaponComponent::SetUnarmedMode()
 {
 	GetEquipment()->UnEquip();
-	SetMode(EWeaponType::Max);
+	ChangeType(EWeaponType::Max);
 }
 
 void UCPP_WeaponComponent::SetFistMode()

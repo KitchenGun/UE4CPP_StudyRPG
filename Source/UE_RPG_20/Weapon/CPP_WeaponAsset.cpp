@@ -54,4 +54,6 @@ void UCPP_WeaponAsset::BeginPlay(ACharacter* InOwner)
 
 void UCPP_WeaponAsset::EndPlay()
 {
+	
+
 }
