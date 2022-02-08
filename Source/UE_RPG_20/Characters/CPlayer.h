@@ -49,11 +49,13 @@ private:
 
 	void OnOneHand();
 	void OnAction();
-	private:
-		UPROPERTY(EditDefaultsOnly, Category = "Sword")
-		TSubclassOf<class ACPP_Sword> SwordClass;
+	void OnSubAction_Pressed();
+	void OnSubAction_Released();
+
+	UPROPERTY(EditDefaultsOnly, Category = "Sword")
+	TSubclassOf<class ACPP_Sword> SwordClass;
 		
-		class ACPP_Sword* Sword;
-	public:
+	class ACPP_Sword* Sword;
+public:
 		FORCEINLINE class ACPP_Sword* GetSword() { return Sword; }
 };

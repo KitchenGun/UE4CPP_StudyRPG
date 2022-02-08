@@ -35,7 +35,7 @@ public:
 	virtual void Pressed() override;
 
 	virtual void OnAttachmentBeginOverlap(class ACharacter* InAttacker, class AActor* InAttackCauser, class ACharacter* InOtherCharacter) override;
-
+	virtual void OffAttachmentCollision() override;
 private :
 	bool bMoving;
 	FVector Start;

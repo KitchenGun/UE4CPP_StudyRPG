@@ -1,7 +1,10 @@
 #include "Weapon/CPP_WeaponComponent.h"
+
+#include "CPP_SubAction.h"
 #include "Global.h"
 #include "GameFramework/Character.h"
 #include "Weapon/CPP_DoAction.h"
+#include "Weapon/CPP_SubAction.h"
 #include "Weapon/CPP_WeaponAsset.h"
 
 
@@ -29,6 +32,8 @@ void UCPP_WeaponComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 	{
 		if(GetDoAction())
 			GetDoAction()->Tick(DeltaTime);
+		if(GetSubAction())
+			GetSubAction()->Tick(DeltaTime);
 	}
 }
 
@@ -46,6 +51,12 @@ UCPP_DoAction* UCPP_WeaponComponent::GetDoAction()
 {
 	return DataAssets[(int32)Type]->GetDoAction();
 }
+
+UCPP_SubAction* UCPP_WeaponComponent::GetSubAction()
+{
+	return DataAssets[(int32)Type]->GetSubAction();	
+}
+
 
 void UCPP_WeaponComponent::SetMode(EWeaponType InType)
 {
@@ -118,6 +129,18 @@ void UCPP_WeaponComponent::DoAction()
 {
 	CheckTrue(Type == EWeaponType::Max);
 	GetDoAction()->DoAction();
+}
+
+void UCPP_WeaponComponent::SubAction_Pressed()
+{
+	CheckTrue(Type == EWeaponType::Max);
+	GetSubAction()->Pressed();
+}
+
+void UCPP_WeaponComponent::SubAction_Released()
+{
+	CheckTrue(Type == EWeaponType::Max);
+	GetSubAction()->Released();
 }
 
 

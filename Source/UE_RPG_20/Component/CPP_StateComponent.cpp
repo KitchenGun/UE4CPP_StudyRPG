@@ -36,6 +36,16 @@ void UCPP_StateComponent::SetActionMode()
 	ChangeType(EStateType::Action);
 }
 
+void UCPP_StateComponent::OnSubActionMode()
+{
+	bInSubAction = true;
+}
+
+void UCPP_StateComponent::OffSubActionMode()
+{
+	bInSubAction = false;
+}
+
 void  UCPP_StateComponent::ChangeType(EStateType InType)
 {
 	Type = InType;

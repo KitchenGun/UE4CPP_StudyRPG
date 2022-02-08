@@ -9,6 +9,6 @@ void UCPP_SubAction::BeginPlay(class ACharacter* InOwner)
 	OwnerCharacter = InOwner;
 	World = OwnerCharacter->GetWorld();
 
-	CHelpers::GetComponent<UCPP_StateComponent>(OwnerCharacter);
-	CHelpers::GetComponent<UCPP_StatusComponent>(OwnerCharacter);
+	State=CHelpers::GetComponent<UCPP_StateComponent>(OwnerCharacter);
+	Status = CHelpers::GetComponent<UCPP_StatusComponent>(OwnerCharacter);
 }

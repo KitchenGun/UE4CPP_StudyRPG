@@ -3,12 +3,14 @@
 #include "CPP_Attachment.h"
 #include "CPP_Equipment.h"
 #include "CPP_DoAction.h"
+#include "CPP_SubAction.h"
 #include "GameFramework/Character.h"
 
 UCPP_WeaponAsset::UCPP_WeaponAsset()
 {
 	CHelpers::GetClass<UCPP_Equipment>(&EquipmentClass,"Blueprint'/Game/Weapons/BP_CEquipment.BP_CEquipment_C'");
 	DoActionClass = UCPP_DoAction::StaticClass();
+	SubActionClass = UCPP_SubAction::StaticClass();
 }
 
 void UCPP_WeaponAsset::BeginPlay(ACharacter* InOwner)
@@ -48,6 +50,20 @@ void UCPP_WeaponAsset::BeginPlay(ACharacter* InOwner)
 
 			Attachment->OnAttachmentCollision.AddDynamic(DoAction, &UCPP_DoAction::OnAttachmentCollision);
 			Attachment->OffAttachmentCollision.AddDynamic(DoAction, &UCPP_DoAction::OffAttachmentCollision);
+		}
+	}
+	if (SubActionClass)
+	{
+		SubAction = NewObject<UCPP_SubAction>(this, SubActionClass);
+		SubAction->BeginPlay(InOwner);
+
+		if (Attachment)
+		{
+			Attachment->OnAttachmentBeginOverlap.AddDynamic(SubAction, &UCPP_SubAction::OnAttachmentBeginOverlap);
+			Attachment->OnAttachmentEndOverlap.AddDynamic(SubAction, &UCPP_SubAction::OnAttachmentEndOverlap);
+
+			Attachment->OnAttachmentCollision.AddDynamic(SubAction, &UCPP_SubAction::OnAttachmentCollision);
+			Attachment->OffAttachmentCollision.AddDynamic(SubAction, &UCPP_SubAction::OffAttachmentCollision);
 		}
 	}
 }

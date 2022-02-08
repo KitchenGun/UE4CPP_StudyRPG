@@ -27,7 +27,7 @@ class UE_RPG_20_API UCPP_StateComponent : public UActorComponent
 public:
 	//실행을 하지 않아도 독립적으로 실행 가능
 	UFUNCTION(BlueprintPure)
-		FORCEINLINE bool IsIdleMode() {return Type == EStateType::Idle;}
+	FORCEINLINE bool IsIdleMode() {return Type == EStateType::Idle;}
 	UFUNCTION(BlueprintPure)
 	FORCEINLINE bool IsEquipMode() { return Type == EStateType::Equip; }
 	UFUNCTION(BlueprintPure)
@@ -36,6 +36,8 @@ public:
 	FORCEINLINE bool IsDeadMode() { return Type == EStateType::Dead; }
 	UFUNCTION(BlueprintPure)
 	FORCEINLINE bool IsActionMode() { return Type == EStateType::Action; }
+	UFUNCTION(BlueprintPure)
+	FORCEINLINE bool IsSubActionMode() { return bInSubAction; }
 
 public:	
 	UCPP_StateComponent();
@@ -45,6 +47,9 @@ public:
 	void SetHittedMode();
 	void SetDeadMode();
 	void SetActionMode();
+
+	void OnSubActionMode();
+	void OffSubActionMode();
 protected:
 	virtual void BeginPlay() override;
 
@@ -54,4 +59,5 @@ public:
 	FStateTypeChanged OnStateTypeChanged;
 private:
 	EStateType Type;
+	bool bInSubAction = false;
 };

@@ -1,6 +1,7 @@
 #include "Weapon/CPP_SubActionLauncher.h"
 #include "Global.h"
 #include "GameFramework/Character.h"
+#include "Component/CPP_StateComponent.h"
 #include "Components/CapsuleComponent.h"
 
 UCPP_SubActionLauncher::UCPP_SubActionLauncher(){}
@@ -14,11 +15,31 @@ void UCPP_SubActionLauncher::BeginPlay(ACharacter* InOwner)
 void UCPP_SubActionLauncher::Tick(float InDeltaTime)
 {
 	Super::Tick(InDeltaTime);
+	CheckFalse(bMoving);
+	FVector location = OwnerCharacter->GetActorLocation();
+	if(location.Equals(End,OwnerRadius*2))
+	{//한계까지 도달하면 같은 위치로 고정
+		bMoving =false;
+		Start = End = OwnerCharacter->GetActorLocation();
+	}
+	//아닐경우 End를 향해서 계속 이동
+	location = UKismetMathLibrary::VInterpTo(location,End,InDeltaTime,Speed);
+	
+	//OwnerCharacter->GetCharacterMovement()->AddImpulse();
+	//OwnerCharacter->SetActorLocation();
+	
+	FVector direction = (End - Start).GetSafeNormal2D();
+	OwnerCharacter->AddActorWorldOffset(direction*Speed,false);
 }
 
 void UCPP_SubActionLauncher::Pressed()
 {
+	CheckFalse(State->IsIdleMode());
+	CheckTrue(State->IsSubActionMode());
 	Super::Pressed();
+	State->SetActionMode();
+	State->OnSubActionMode();
+	ActionData.PlayMontage(OwnerCharacter);
 }
 
 void UCPP_SubActionLauncher::Begin_SubAction()
@@ -60,6 +81,8 @@ void UCPP_SubActionLauncher::End_SubAction()
 	{
 		character->GetCapsuleComponent()->SetCollisionProfileName("Pawn");
 	}
+
+	State->OffSubActionMode();
 	ActionData.EndAction(OwnerCharacter);
 }
 
@@ -76,5 +99,12 @@ void UCPP_SubActionLauncher::OnAttachmentBeginOverlap(ACharacter* InAttacker, AA
 	Hitted.AddUnique(InOtherCharacter);
 
 	HitData.SendDamage(OwnerCharacter,InAttackCauser,InOtherCharacter);
+}
+
+void UCPP_SubActionLauncher::OffAttachmentCollision()
+{
+	Super::OffAttachmentCollision();
+	CheckFalse(State->IsSubActionMode());
+	Hitted.Empty();
 }
 
