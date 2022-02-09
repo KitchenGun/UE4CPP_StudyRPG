@@ -22,13 +22,17 @@ public:
 	class UFXSystemAsset* Effect;
 	UPROPERTY(EditAnywhere)
 	FTransform EffectTransform;
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<class ACPP_GhostTrail> GhostTrailClass;
 public:
 	void PlayMontage(class ACharacter* InOwner);
 	void PlayEffect(class UWorld* InWorld,class ACharacter* InOwner);
 	void PlayEffect(class USkeletalMeshComponent* InMesh,FName InSocketName = NAME_None);
+	void SpawnGhostTrail(class ACharacter* InOwner);
 
 	void EndAction(class ACharacter* InOwner);
-
+private:
+	class ACPP_GhostTrail* BackupGhostTrail;
 };
 
 USTRUCT(BlueprintType)

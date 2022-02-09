@@ -1,12 +1,13 @@
 #include "CPP_WeaponStructures.h"
 #include "Global.h"
 #include "GameFramework/Character.h"
-#include "Components/CapsuleComponent.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "Component/CPP_StatusComponent.h"
 #include "Component/CPP_StateComponent.h"
 #include "Animation/AnimMontage.h"
+#include "Components/CapsuleComponent.h"
 #include "Sound/SoundCue.h"
+#include "Weapon/CPP_GhostTrail.h"
 //전역 맴버 변수 초기화
 UAnimMontage* UCPP_WeaponStructures::DefaultHitMontage = nullptr;
 
@@ -53,6 +54,21 @@ void FDoActionData::PlayEffect(USkeletalMeshComponent* InMesh, FName InSocketNam
 
 }
 
+void FDoActionData::SpawnGhostTrail(ACharacter* InOwner)
+{
+	CheckNull(GhostTrailClass);
+	FActorSpawnParameters params;
+	params.Owner = InOwner;
+	//스폰시 actor의 충돌과 관계없이 스폰한다
+	params.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+
+	FVector vector = InOwner->GetActorLocation();
+	vector.Z -= InOwner->GetCapsuleComponent()->GetScaledCapsuleHalfHeight();
+	FTransform transform;
+	transform.SetLocation(vector);
+	BackupGhostTrail=InOwner->GetWorld()->SpawnActor<ACPP_GhostTrail>(GhostTrailClass,transform,params);
+}
+
 void FDoActionData::EndAction(ACharacter* InOwner)
 {
 	UCPP_StatusComponent* status = CHelpers::GetComponent<UCPP_StatusComponent>(InOwner);
@@ -63,6 +79,9 @@ void FDoActionData::EndAction(ACharacter* InOwner)
 
 	if(state)
 		state->SetIdleMode();
+
+	if(BackupGhostTrail)
+		BackupGhostTrail->Destroy();
 }
 
 

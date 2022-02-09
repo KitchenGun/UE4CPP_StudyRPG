@@ -28,11 +28,13 @@ void UCPP_WeaponComponent::BeginPlay()
 void UCPP_WeaponComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+
 	if (IsUnarmedMode() == false)
 	{
-		if(GetDoAction())
+		if (GetDoAction())
 			GetDoAction()->Tick(DeltaTime);
-		if(GetSubAction())
+
+		if (GetSubAction())
 			GetSubAction()->Tick(DeltaTime);
 	}
 }

@@ -6,7 +6,7 @@
 
 UCPP_SubActionLauncher::UCPP_SubActionLauncher(){}
 
-void UCPP_SubActionLauncher::BeginPlay(ACharacter* InOwner)
+void UCPP_SubActionLauncher::BeginPlay(class ACharacter* InOwner)
 {
 	Super::BeginPlay(InOwner);
 	OwnerRadius = OwnerCharacter->GetCapsuleComponent()->GetScaledCapsuleRadius();
@@ -29,7 +29,7 @@ void UCPP_SubActionLauncher::Tick(float InDeltaTime)
 	//OwnerCharacter->SetActorLocation();
 	
 	FVector direction = (End - Start).GetSafeNormal2D();
-	OwnerCharacter->AddActorWorldOffset(direction*Speed,false);
+	OwnerCharacter->AddActorWorldOffset(direction*Speed,true);
 }
 
 void UCPP_SubActionLauncher::Pressed()
@@ -39,6 +39,7 @@ void UCPP_SubActionLauncher::Pressed()
 	Super::Pressed();
 	State->SetActionMode();
 	State->OnSubActionMode();
+	ActionData.SpawnGhostTrail(OwnerCharacter);
 	ActionData.PlayMontage(OwnerCharacter);
 }
 
