@@ -15,9 +15,21 @@ ACPP_SkillSwordSlash::ACPP_SkillSwordSlash()
 	Niagara->SetAsset(niagara);
 }
 
+void ACPP_SkillSwordSlash::ReceiveParticleData_Implementation(const TArray<FBasicParticleData>& Data,
+	UNiagaraSystem* NiagaraSystem)
+{
+	INiagaraParticleCallbackHandler::ReceiveParticleData_Implementation(Data, NiagaraSystem);
+	Box->SetRelativeScale3D(Data[0].Position);
+	FVector location = Box->GetScaledBoxExtent();
+	location.Y =0;
+	//커진만큼 앞으로 이동
+	Box->SetRelativeLocation(location);
+}
+
 void ACPP_SkillSwordSlash::BeginPlay()
 {
 	Super::BeginPlay();
+	Niagara->SetNiagaraVariableObject("Scale_Callback",this);
 	Niagara->OnSystemFinished.AddDynamic(this,&ACPP_SkillSwordSlash::OnSystemFinished);
 	Box->OnComponentBeginOverlap.AddDynamic(this,&ACPP_SkillSwordSlash::OnComponentBeginOverlap);
 	Box->OnComponentEndOverlap.AddDynamic(this,&ACPP_SkillSwordSlash::OnComponentEndOverlap);
