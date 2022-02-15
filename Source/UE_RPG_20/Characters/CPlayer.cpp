@@ -73,6 +73,7 @@ void ACPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	PlayerInputComponent->BindAxis("VerticalLook", this, &ACPlayer::OnVerticalLook);
 
 	PlayerInputComponent->BindAction("OneHand", IE_Pressed, this, &ACPlayer::OnOneHand);
+	PlayerInputComponent->BindAction("Wizard", IE_Pressed, this, &ACPlayer::OnWizard);
 	PlayerInputComponent->BindAction("Action", IE_Pressed, this, &ACPlayer::OnAction);
 	
 	PlayerInputComponent->BindAction("SubAction",IE_Pressed,this,&ACPlayer::OnSubAction_Pressed);
@@ -116,6 +117,12 @@ void ACPlayer::OnOneHand()
 	CheckFalse(State->IsIdleMode());
 
 	Weapon->SetOneHandMode();
+}
+
+void ACPlayer::OnWizard()
+{
+	CheckFalse(State->IsIdleMode());
+	Weapon->SetWizardMode();
 }
 
 void ACPlayer::OnAction()

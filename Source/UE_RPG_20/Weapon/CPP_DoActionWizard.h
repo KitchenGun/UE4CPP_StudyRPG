@@ -9,12 +9,12 @@ class UE_RPG_20_API UCPP_DoActionWizard : public UCPP_DoAction
 {
 	GENERATED_BODY()
 private:
-	TSubclassOf<class ACPP_Projectile> ProjectileClass;
+	UPROPERTY(EditDefaultsOnly,Category="FireBall")
+	TSubclassOf<class ACPP_Projectile> FireBallClass;
 public:
 	UCPP_DoActionWizard();
 
 	virtual void BeginPlay(ACPP_Attachment* InAttachment, ACharacter* InOwner, const TArray<FDoActionData>& InActionDatas, const TArray<FHitData>& InHitDatas) override;
-	virtual void Tick(float InDeltaTime) override;
 
 	UFUNCTION()
 	virtual void DoAction() override;
@@ -23,6 +23,14 @@ public:
 	UFUNCTION()
 	virtual void EndDoAction() override;
 
+	virtual void OnEquip() override;
+	virtual void OnUnEquip() override;
+private:
+	void CreateFireBall();
 	UFUNCTION()
-	void OnFireballBeginOverlap(AActor* InAttackCauser, ACharacter* InOtherCharacter);
+	void FireBallHit(class AActor* InCauser,class ACharacter* InOtherCharacter);
+	UFUNCTION()
+	void FireBallDestroy(class ACPP_Projectile* InDestroyer);
+private:
+	TArray<class ACPP_Projectile*> FireBalls;
 };

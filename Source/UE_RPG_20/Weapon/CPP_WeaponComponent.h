@@ -7,7 +7,7 @@
 UENUM(BlueprintType)
 enum class EWeaponType : uint8
 {
-	Fist,OneHand,TwoHand,Warp,FireStorm,IceBall,Bow,Max
+	Fist,OneHand,TwoHand,Warp,Wizard,Bow,Max
 };
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FEWeaponTypeChanged,EWeaponType, InNewType);
@@ -25,8 +25,7 @@ public:
 	FORCEINLINE bool IsOneHandMode() { return Type == EWeaponType::OneHand; }
 	FORCEINLINE bool IsTwoHandMode() { return Type == EWeaponType::TwoHand; }
 	FORCEINLINE bool IsWarpMode() { return Type == EWeaponType::Warp; }
-	FORCEINLINE bool IsFireStormMode() { return Type == EWeaponType::FireStorm; }
-	FORCEINLINE bool IsIceBallMode() { return Type == EWeaponType::IceBall; }
+	FORCEINLINE bool IsWizardMode() { return Type == EWeaponType::Wizard; }
 	FORCEINLINE bool IsBowMode() { return Type == EWeaponType::Bow; }
 public:	
 	UCPP_WeaponComponent();
@@ -36,8 +35,7 @@ public:
 	void SetOneHandMode();	
 	void SetTwoHandMode();
 	void SetWarpMode();
-	void SetFireStormMode();
-	void SetIceBallMode();
+	void SetWizardMode();
 	void SetBowMode();		
 
 	void DoAction();

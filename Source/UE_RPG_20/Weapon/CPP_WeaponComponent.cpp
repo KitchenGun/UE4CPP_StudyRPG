@@ -112,15 +112,11 @@ void UCPP_WeaponComponent::SetWarpMode()
 	SetMode(EWeaponType::Warp);
 }
 
-void UCPP_WeaponComponent::SetFireStormMode()
+void UCPP_WeaponComponent::SetWizardMode()
 {
-	SetMode(EWeaponType::FireStorm);
+	SetMode(EWeaponType::Wizard);
 }
 
-void UCPP_WeaponComponent::SetIceBallMode()
-{
-	SetMode(EWeaponType::IceBall);
-}
 
 void UCPP_WeaponComponent::SetBowMode()
 {
