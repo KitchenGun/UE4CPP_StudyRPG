@@ -40,6 +40,7 @@ void ACPP_Projectile::Shoot(const FVector& InForward)
 void ACPP_Projectile::OnComponentHit(UPrimitiveComponent* HitComponent, AActor* OtherActor,
 	UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
+	SetLifeSpan(0.5f);
 	for(AActor* actor:IgnoreActors)
 		CheckTrue(actor == OtherActor);
 	ACharacter* character = Cast<ACharacter>(OtherActor);
