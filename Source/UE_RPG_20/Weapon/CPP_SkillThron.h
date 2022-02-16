@@ -19,8 +19,6 @@ private:
 	class USceneComponent* Root;
 	UPROPERTY(VisibleDefaultsOnly)
 	class UNiagaraComponent* Niagara;
-	UPROPERTY(EditDefaultsOnly,Category="Effect")
-	class UFXSystemAsset* Effect;
 	
 public:
 	ACPP_SkillThron();

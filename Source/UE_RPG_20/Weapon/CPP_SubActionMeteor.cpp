@@ -9,7 +9,7 @@ UCPP_SubActionMeteor::UCPP_SubActionMeteor() {}
 void UCPP_SubActionMeteor::Pressed()
 {
 	CheckFalse(State->IsIdleMode());
-	CheckFalse(State->IsSubActionMode());
+	CheckTrue(State->IsSubActionMode());
 	Super::Pressed();
 	State->SetActionMode();
 	State->OnSubActionMode();

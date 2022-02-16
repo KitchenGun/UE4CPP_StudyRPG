@@ -17,28 +17,33 @@ void ACPP_SkillThron::ReceiveParticleData_Implementation(const TArray<FBasicPart
 	UNiagaraSystem* NiagaraSystem)
 {
 	INiagaraParticleCallbackHandler::ReceiveParticleData_Implementation(Data, NiagaraSystem);
-	if(!Data[0].Position.IsNearlyZero())
-	{
-		FVector location = Data[0].Velocity;
-		FTransform transform;
-		transform.SetLocation(location);
 	
-		CHelpers::PlayEffect(GetWorld(),Effect,transform);
-		if(CollisionMesh)
+		FVector location = Data[0].Position;
+		
+	if(CollisionMesh)
+	{
+		FBox box = CollisionMesh->GetBoundingBox();
+		FVector center = box.GetCenter();
+		FVector extent = box.GetExtent()*3;
+
+		TArray<FHitResult> hitResult;
+		TArray<TEnumAsByte<EObjectTypeQuery>> objects;
+		objects.Add(EObjectTypeQuery::ObjectTypeQuery3);
+
+		TArray<AActor*> ignore;
+		ignore.Add(OwnerCharacter);
+		UKismetSystemLibrary::BoxTraceMultiForObjects
+		(GetWorld(),location,location,extent,FRotator::ZeroRotator,objects,false,
+			ignore,EDrawDebugTrace::None,hitResult,true);
+	
+		for(auto hit : hitResult)
 		{
-			FBox box = CollisionMesh->GetBoundingBox();
-			FVector center = box.GetCenter();
-			FVector extent = box.GetExtent();
-
-			TArray<FHitResult> hitResult;
-			TArray<TEnumAsByte<EObjectTypeQuery>> objects;
-			objects.Add(EObjectTypeQuery::ObjectTypeQuery3);
-
-			TArray<AActor*> ignore;
-			ignore.Add(OwnerCharacter);
-			UKismetSystemLibrary::BoxTraceMultiForObjects
-			(GetWorld(),location,location,extent,FRotator::ZeroRotator,objects,false,
-				ignore,EDrawDebugTrace::ForDuration,hitResult,true);
+			if(hit.GetActor()!=OwnerCharacter)
+			{
+				ACharacter* character =Cast<ACharacter>(hit.GetActor());
+				HitData.SendDamage(OwnerCharacter,this,character);
+				Destroy();
+			}
 		}
 	}
 }
@@ -48,3 +53,4 @@ void ACPP_SkillThron::BeginPlay()
 	Super::BeginPlay();
 	Niagara->SetNiagaraVariableObject("Collision",this);
 }
+
