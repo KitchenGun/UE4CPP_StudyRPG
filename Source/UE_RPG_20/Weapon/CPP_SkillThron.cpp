@@ -19,7 +19,6 @@ void ACPP_SkillThron::ReceiveParticleData_Implementation(const TArray<FBasicPart
 	INiagaraParticleCallbackHandler::ReceiveParticleData_Implementation(Data, NiagaraSystem);
 	
 		FVector location = Data[0].Position;
-		
 	if(CollisionMesh)
 	{
 		FBox box = CollisionMesh->GetBoundingBox();
@@ -32,9 +31,9 @@ void ACPP_SkillThron::ReceiveParticleData_Implementation(const TArray<FBasicPart
 
 		TArray<AActor*> ignore;
 		ignore.Add(OwnerCharacter);
-		UKismetSystemLibrary::BoxTraceMultiForObjects
-		(GetWorld(),location,location,extent,FRotator::ZeroRotator,objects,false,
-			ignore,EDrawDebugTrace::None,hitResult,true);
+		UKismetSystemLibrary::SphereTraceMultiForObjects
+		(GetWorld(),location,location,extent.X,objects,false,
+			ignore,EDrawDebugTrace::ForDuration,hitResult,true);
 	
 		for(auto hit : hitResult)
 		{
@@ -51,6 +50,6 @@ void ACPP_SkillThron::ReceiveParticleData_Implementation(const TArray<FBasicPart
 void ACPP_SkillThron::BeginPlay()
 {
 	Super::BeginPlay();
-	Niagara->SetNiagaraVariableObject("Collision",this);
+	Niagara->SetNiagaraVariableObject("Collision",this);//ns에서 데이터를 가져오고 있음
 }
 

@@ -36,6 +36,10 @@ public:
 
 	FORCEINLINE void Move()  { bCanMove = true; }
 	FORCEINLINE void Stop()  { bCanMove = false; }
+
+	FORCEINLINE bool GetFixedCamera() const {return bFixedCamera; }
+	FORCEINLINE void EnableFixedCamera() {bFixedCamera=true;}
+	FORCEINLINE void DisableFixedCamera() {bFixedCamera=false;}
 public:	
 	UCPP_StatusComponent();
 
@@ -46,5 +50,5 @@ protected:
 private:
 	bool bCanMove = true;
 	float Health;
-		
+	bool bFixedCamera;
 };
