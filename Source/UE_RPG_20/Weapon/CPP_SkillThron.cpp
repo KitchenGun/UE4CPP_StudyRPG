@@ -31,18 +31,15 @@ void ACPP_SkillThron::ReceiveParticleData_Implementation(const TArray<FBasicPart
 
 		TArray<AActor*> ignore;
 		ignore.Add(OwnerCharacter);
-		UKismetSystemLibrary::SphereTraceMultiForObjects
-		(GetWorld(),location,location,extent.X,objects,false,
+		UKismetSystemLibrary::BoxTraceMultiForObjects
+		(GetWorld(),location,location,extent,FRotator::ZeroRotator,objects,false,
 			ignore,EDrawDebugTrace::ForDuration,hitResult,true);
 	
 		for(auto hit : hitResult)
 		{
-			if(hit.GetActor()!=OwnerCharacter)
-			{
-				ACharacter* character =Cast<ACharacter>(hit.GetActor());
-				HitData.SendDamage(OwnerCharacter,this,character);
-				Destroy();
-			}
+			ACharacter* character =Cast<ACharacter>(hit.GetActor());
+			HitData.SendDamage(OwnerCharacter,this,character);
+			Destroy();
 		}
 	}
 }

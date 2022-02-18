@@ -6,6 +6,7 @@
 #include "Camera/PlayerCameraManager.h"
 #include "Camera/CameraAnim.h"
 #include "Weapon/CPP_CameraAnimModifier.h"
+#include "Component/CPP_StatusComponent.h"
 
 
 void UCPP_ANSCameraAnim::NotifyBegin(USkeletalMeshComponent* MeshComp, UAnimSequenceBase* Animation,
@@ -23,6 +24,22 @@ void UCPP_ANSCameraAnim::NotifyBegin(USkeletalMeshComponent* MeshComp, UAnimSequ
 	Modifier = Cast<UCPP_CameraAnimModifier>(controller->PlayerCameraManager->AddNewCameraModifier(UCPP_CameraAnimModifier::StaticClass()));
 	Modifier->SetPlayerLocation(character->GetActorLocation());
 	Modifier->SetTargetLocation(character->GetActorLocation());
+
+	controller->PlayerCameraManager->PlayCameraAnim
+	(
+		//카메라 애님
+		CameraAnim,
+		//재생 속도
+		PlayerRatio,
+		//scale
+		1,
+		//카메라가 몇초만에 갈것인가?
+		BlendInTime,
+		//원래 카메라로 몇초만에 갈것인가?
+		BlendOutTime
+		);
+	UCPP_StatusComponent* status = CHelpers::GetComponent<UCPP_StatusComponent>(character);
+	status->EnableFixedCamera();
 	
 }
 
@@ -37,4 +54,6 @@ void UCPP_ANSCameraAnim::NotifyEnd(USkeletalMeshComponent* MeshComp, UAnimSequen
 	CheckNull(controller);
 
 	controller->PlayerCameraManager->RemoveCameraModifier(Modifier);
+	UCPP_StatusComponent* status = CHelpers::GetComponent<UCPP_StatusComponent>(character);
+	status->DisableFixedCamera();
 }

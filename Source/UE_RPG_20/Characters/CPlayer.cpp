@@ -84,7 +84,7 @@ void ACPlayer::OnMoveForward(float InAxis)
 {
 	//if(p == false) return; 와 같은 의미
 	CheckFalse(Status->CanMove());
-
+	CheckFalse(State->IsIdleMode());
 	FRotator rotator = FRotator(0, GetControlRotation().Yaw, 0);
 	FVector direction = FQuat(rotator).GetForwardVector();
 
@@ -94,7 +94,7 @@ void ACPlayer::OnMoveForward(float InAxis)
 void ACPlayer::OnMoveRight(float InAxis)
 {
 	CheckFalse(Status->CanMove());
-
+	CheckFalse(State->IsIdleMode());
 	FRotator rotator = FRotator(0, GetControlRotation().Yaw, 0);
 	FVector direction = FQuat(rotator).GetRightVector();
 
@@ -103,11 +103,13 @@ void ACPlayer::OnMoveRight(float InAxis)
 
 void ACPlayer::OnHorizontalLook(float InAxis)
 {
+	CheckTrue(Status->GetFixedCamera());//카메라 애니메이션 중간에서 회전 안하도록함
 	AddControllerYawInput(InAxis * HorizontalLook * GetWorld()->GetDeltaSeconds());
 }
 
 void ACPlayer::OnVerticalLook(float InAxis)
 {
+	CheckTrue(Status->GetFixedCamera());
 	AddControllerPitchInput(InAxis * VerticalLook * GetWorld()->GetDeltaSeconds());
 }
 
