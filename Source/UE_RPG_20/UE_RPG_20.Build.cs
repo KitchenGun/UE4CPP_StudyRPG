@@ -14,7 +14,9 @@ public class UE_RPG_20 : ModuleRules
             "CoreUObject",
             "Engine",
             "InputCore",
-            "Niagara"
+            "Niagara",
+            "AIModule",
+            "GameplayTasks"
         });
 
         PublicIncludePaths.Add(ModuleDirectory);
