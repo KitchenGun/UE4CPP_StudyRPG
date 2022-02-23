@@ -4,11 +4,12 @@
 #include "GameFramework/Character.h"
 #include "Component/CPP_StatusComponent.h"
 #include "Component/CPP_StateComponent.h"
+#include "GenericTeamAgentInterface.h"
 #include "CPlayer.generated.h"
 
 
 UCLASS()
-class UE_RPG_20_API ACPlayer  : public ACharacter
+class UE_RPG_20_API ACPlayer  : public ACharacter, public IGenericTeamAgentInterface
 {
 	GENERATED_BODY()
 
@@ -19,6 +20,8 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = "CameraSpeed")
 		float VerticalLook = 45;
 
+	UPROPERTY(EditDefaultsOnly,Category="Team")
+		uint8 TeamId =1;
 private:
 	UPROPERTY(VisibleDefaultsOnly)
 		class USpringArmComponent* SpringArm;

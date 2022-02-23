@@ -45,9 +45,14 @@ public:
 
 	void AddHealth(float InAmount);
 	void SubHealth(float InAmount);
+
+	void SetSpeed(ESpeedType InType);
+	
 protected:
 	virtual void BeginPlay() override;
 private:
+	class ACharacter* OwnerCharacter;
+	
 	bool bCanMove = true;
 	float Health;
 	bool bFixedCamera;

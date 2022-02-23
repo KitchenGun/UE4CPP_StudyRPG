@@ -18,10 +18,10 @@ ACPP_AIController::ACPP_AIController()
 
 	SightSense = CreateDefaultSubobject<UAISenseConfig_Sight>(L"Sight");
 	
-	SightSense->SightRadius = 3000;
-	SightSense->LoseSightRadius = 3500;
-	SightSense->PeripheralVisionAngleDegrees = 180;
-	SightSense->SetMaxAge(5);
+	SightSense->SightRadius = 600;
+	SightSense->LoseSightRadius = 800;
+	SightSense->PeripheralVisionAngleDegrees = 45;
+	SightSense->SetMaxAge(2);
 	SightSense->DetectionByAffiliation.bDetectEnemies = true;
 	SightSense->DetectionByAffiliation.bDetectNeutrals = false;
 	SightSense->DetectionByAffiliation.bDetectFriendlies = false;
