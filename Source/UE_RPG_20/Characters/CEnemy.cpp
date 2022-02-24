@@ -7,6 +7,7 @@
 #include "Component/CPP_StatusComponent.h"
 #include "Component/CPP_StateComponent.h"
 #include "Component/CPP_MontageComponent.h"
+#include "Weapon/CPP_WeaponComponent.h"
 #include "Weapon/CPP_WeaponStructures.h"
 
 ACEnemy::ACEnemy()
@@ -14,7 +15,8 @@ ACEnemy::ACEnemy()
 	CHelpers::CreateActorComponent<UCPP_StatusComponent>(this, &Status, "Status");
 	CHelpers::CreateActorComponent<UCPP_StateComponent>(this, &State, "State");
 	CHelpers::CreateActorComponent<UCPP_MontageComponent>(this,&Montage,"Montage");
-
+	CHelpers::CreateActorComponent<UCPP_WeaponComponent>(this,&Weapon,"Weapon");
+	
 	GetMesh()->SetRelativeLocation(FVector(0, 0, -90));
 	GetMesh()->SetRelativeRotation(FRotator(0, -90, 0));
 

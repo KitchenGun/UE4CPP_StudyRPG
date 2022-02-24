@@ -15,13 +15,15 @@ private:
 	FLinearColor OriginColor = FLinearColor::Black;
 
 
-private:
 	UPROPERTY(VisibleDefaultsOnly)
 	class UCPP_MontageComponent* Montage;
 	UPROPERTY(VisibleDefaultsOnly)
 	class UCPP_StatusComponent* Status;
+protected:
 	UPROPERTY(VisibleDefaultsOnly)
 	class UCPP_StateComponent* State;
+	UPROPERTY(VisibleDefaultsOnly)
+	class UCPP_WeaponComponent* Weapon;
 public:
 	ACEnemy();
 

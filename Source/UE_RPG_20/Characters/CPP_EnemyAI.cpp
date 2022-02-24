@@ -1,7 +1,8 @@
 #include "Characters/CPP_EnemyAI.h"
 #include "Global.h"
 #include "AIControllers/CPP_BehaviorTreeComponent.h"
-
+#include "Weapon/CPP_WeaponComponent.h"
+#include "Component/CPP_StateComponent.h"
 
 ACPP_EnemyAI::ACPP_EnemyAI()
 {
@@ -11,4 +12,6 @@ ACPP_EnemyAI::ACPP_EnemyAI()
 void ACPP_EnemyAI::BeginPlay()
 {
 	Super::BeginPlay();
+	CheckFalse(State->IsIdleMode())
+	Weapon->SetOneHandMode();
 }
