@@ -32,23 +32,7 @@ public:
 	TSubclassOf<class UCPP_SubAction> SubActionClass;
 public:
 	UCPP_WeaponAsset();
-	void BeginPlay(class ACharacter* InOwner);
+	void BeginPlay(class ACharacter* InOwner,class UCPP_WeaponData** OutAction);
 	void EndPlay();
 
-	FORCEINLINE class ACPP_Attachment* GetAttachment() {return Attachment;}
-	FORCEINLINE class UCPP_Equipment* GetEquipment() { return Equipment; }
-	FORCEINLINE class UCPP_DoAction* GetDoAction() { return DoAction; }
-	FORCEINLINE class UCPP_SubAction* GetSubAction() {return SubAction;}
-private:
-	UPROPERTY()
-	class ACPP_Attachment* Attachment;
-
-	UPROPERTY()
-	class UCPP_Equipment* Equipment;
-
-	UPROPERTY()
-	class UCPP_DoAction* DoAction;
-
-	UPROPERTY()
-	class UCPP_SubAction* SubAction;
 };

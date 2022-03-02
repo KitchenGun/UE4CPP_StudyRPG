@@ -61,4 +61,6 @@ public:
 private:	
 	class ACharacter* OwnerCharacter;
 	EWeaponType Type = EWeaponType::Max;
+
+	class UCPP_WeaponData* Datas[(int32)EWeaponType::Max];
 };

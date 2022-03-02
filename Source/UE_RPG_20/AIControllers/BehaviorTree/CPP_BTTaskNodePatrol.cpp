@@ -33,7 +33,7 @@ void UCPP_BTTaskNodePatrol::TickTask(UBehaviorTreeComponent& OwnerComp, uint8* N
 	float distance;
 	patrol->GetMoveTo(location,distance);
 	controller->MoveToLocation(location,distance,false);
-	EPathFollowingResult::Type type = controller->MoveToLocation(location,distance,false);
+	EPathFollowingRequestResult::Type type = controller->MoveToLocation(location,distance,false);
 	if(type == EPathFollowingRequestResult::Failed)
 	{
 		FinishLatentTask(OwnerComp,EBTNodeResult::Failed);

@@ -5,6 +5,7 @@
 #include "GameFramework/Character.h"
 #include "Weapon/CPP_DoAction.h"
 #include "Weapon/CPP_SubAction.h"
+#include "Weapon/CPP_WeaponData.h"
 #include "Weapon/CPP_WeaponAsset.h"
 
 
@@ -20,7 +21,7 @@ void UCPP_WeaponComponent::BeginPlay()
 	for (int32 i = 0; i < (int32)EWeaponType::Max; i++)
 	{
 		if(DataAssets[i])
-			DataAssets[i]->BeginPlay(OwnerCharacter);
+			DataAssets[i]->BeginPlay(OwnerCharacter,&Datas[i]);
 	}
 }
 
@@ -41,22 +42,22 @@ void UCPP_WeaponComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 
 ACPP_Attachment* UCPP_WeaponComponent::GetAttachment()
 {
-	return DataAssets[(int32)Type]->GetAttachment();
+	return Datas[(int32)Type]->GetAttachment();
 }
 
 UCPP_Equipment* UCPP_WeaponComponent::GetEquipment()
 {
-	return DataAssets[(int32)Type]->GetEquipment();
+	return Datas[(int32)Type]->GetEquipment();
 }
 
 UCPP_DoAction* UCPP_WeaponComponent::GetDoAction()
 {
-	return DataAssets[(int32)Type]->GetDoAction();
+	return Datas[(int32)Type]->GetDoAction();
 }
 
 UCPP_SubAction* UCPP_WeaponComponent::GetSubAction()
 {
-	return DataAssets[(int32)Type]->GetSubAction();	
+	return Datas[(int32)Type]->GetSubAction();	
 }
 
 
@@ -74,7 +75,7 @@ void UCPP_WeaponComponent::SetMode(EWeaponType InType)
 
 	if (DataAssets[(int32)InType])
 	{
-		DataAssets[(int32)InType]->GetEquipment()->Equip();
+		Datas[(int32)InType]->GetEquipment()->Equip();
 		ChangeType(InType);
 	}
 }

@@ -12,7 +12,7 @@ bool UCPP_PatrolComponent::GetMoveTo(FVector& OutLocation, float& OutAcceptanceD
 {
 	OutLocation = FVector::ZeroVector;
 	OutAcceptanceDistance =0.0f;
-	CheckFalse(IsValidPath());
+	CheckFalseResult(IsValidPath(),false);
 	OutLocation = Path->GetSpline()->GetLocationAtSplinePoint(NextIndex,ESplineCoordinateSpace::World);
 	OutAcceptanceDistance = AcceptanceDistanse;
 	
@@ -54,6 +54,8 @@ void UCPP_PatrolComponent::UpdateNextIndex()
 		
 		return;
 	}
+	NextIndex = count-2;
+	bReverse = true;
 }
 
 
