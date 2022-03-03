@@ -41,6 +41,8 @@ public:
 	void DoAction();
 	void SubAction_Pressed();
 	void SubAction_Released();
+
+	void RemoveAll();
 protected:
 	virtual void BeginPlay() override;
 

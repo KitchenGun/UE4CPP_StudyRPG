@@ -64,7 +64,8 @@ void ACPP_Attachment::OnComponentBeginOverlap(UPrimitiveComponent* OverlappedCom
 {
 	CheckTrue(OwnerCharacter == OtherActor);
 	CheckTrue(OwnerCharacter->GetClass()==OtherActor->GetClass());//객체에 맞는 자료형인지 비교
-
+	if(Cast<ACPP_Attachment>(OtherActor))
+		return;
 	//바인딩으로 호출
 	if(OnAttachmentBeginOverlap.IsBound())
 		OnAttachmentBeginOverlap.Broadcast(OwnerCharacter,this,Cast<ACharacter>(OtherActor));

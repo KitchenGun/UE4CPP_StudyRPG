@@ -7,6 +7,7 @@
 #include "Weapon/CPP_SubAction.h"
 #include "Weapon/CPP_WeaponData.h"
 #include "Weapon/CPP_WeaponAsset.h"
+#include "Weapon/CPP_Attachment.h"
 
 
 UCPP_WeaponComponent::UCPP_WeaponComponent()
@@ -32,10 +33,7 @@ void UCPP_WeaponComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 
 	if (IsUnarmedMode() == false)
 	{
-		if (GetDoAction())
-			GetDoAction()->Tick(DeltaTime);
-
-		if (GetSubAction())
+		if (IsValid(GetSubAction()))
 			GetSubAction()->Tick(DeltaTime);
 	}
 }
@@ -70,7 +68,7 @@ void UCPP_WeaponComponent::SetMode(EWeaponType InType)
 	}
 	else if (IsUnarmedMode() == false)
 	{
-		GetEquipment()->UnEquip();
+		Datas[(int32)InType]->GetEquipment()->UnEquip();
 	}
 
 	if (DataAssets[(int32)InType])
@@ -140,6 +138,18 @@ void UCPP_WeaponComponent::SubAction_Released()
 {
 	CheckTrue(Type == EWeaponType::Max);
 	GetSubAction()->Released();
+}
+
+void UCPP_WeaponComponent::RemoveAll()
+{
+	for(int32 i=0;i<(int32)EWeaponType::Max;i++)
+	{
+		if(Datas[i])
+		{
+			if(Datas[i]->GetAttachment())
+				Datas[i]->GetAttachment()->Destroy();
+		}
+	}
 }
 
 

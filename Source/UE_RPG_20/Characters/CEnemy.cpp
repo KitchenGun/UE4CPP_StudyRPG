@@ -128,7 +128,9 @@ void ACEnemy::Hitted()
 
 void ACEnemy::Dead()
 {
-
+	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	Montage->PlayDeadMode();
+	Weapon->RemoveAll();
 }
 
 float ACEnemy::TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser)

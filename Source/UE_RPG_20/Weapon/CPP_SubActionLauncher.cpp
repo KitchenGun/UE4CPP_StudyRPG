@@ -98,8 +98,15 @@ void UCPP_SubActionLauncher::OnAttachmentBeginOverlap(ACharacter* InAttacker, AA
 	}
 
 	Hitted.AddUnique(InOtherCharacter);
-
-	HitData.SendDamage(OwnerCharacter,InAttackCauser,InOtherCharacter);
+	//수정한 부분
+	if(IsValid(OwnerCharacter)&&IsValid(InAttackCauser)&&IsValid(InOtherCharacter))
+		HitData.SendDamage(OwnerCharacter,InAttackCauser,InOtherCharacter);
+	else
+	{
+		UE_LOG(LogTemp,Display,L"OwnerCharacter%d",IsValid(OwnerCharacter));
+		UE_LOG(LogTemp,Display,L"InAttackCauser%d",IsValid(InAttackCauser));
+		UE_LOG(LogTemp,Display,L"InOtherCharacter%d",IsValid(InOtherCharacter));//이놈이 문제인듯 ...
+	}
 }
 
 void UCPP_SubActionLauncher::OffAttachmentCollision()
