@@ -93,10 +93,10 @@ void FHitData::PlayMontage(ACharacter* InOwner)
 	if(status)
 		bCanMove ? status->Move():status->Stop();
 
-	UAnimMontage* montage = Montage? Montage:UCPP_WeaponStructures::GetDefaultHitMontage();
-	if(Montage)
+	UAnimMontage* montage = Montage? Montage : UCPP_WeaponStructures::GetDefaultHitMontage();
+	
+	if(montage)
 		InOwner->PlayAnimMontage(montage,PlayRatio);
-
 }
 
 void FHitData::PlayEffect(UWorld* InWorld, const FTransform& InTransform)

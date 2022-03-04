@@ -109,7 +109,7 @@ void ACEnemy::Hitted()
 	{
 		FHitData* data = Damaged.DamageEvent->HitData;
 		data->PlayMontage(this);
-
+		
 		FTransform transform;
 		transform.SetLocation(GetActorLocation());
 
