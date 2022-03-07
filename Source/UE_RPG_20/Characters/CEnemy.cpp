@@ -3,12 +3,14 @@
 #include "GameFramework/Actor.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "Components/WidgetComponent.h"
 #include "Materials/MaterialInstanceDynamic.h"
 #include "Component/CPP_StatusComponent.h"
 #include "Component/CPP_StateComponent.h"
 #include "Component/CPP_MontageComponent.h"
 #include "Weapon/CPP_WeaponComponent.h"
 #include "Weapon/CPP_WeaponStructures.h"
+#include "Widget/CPP_UserWidget_Health.h"
 
 ACEnemy::ACEnemy()
 {
@@ -16,6 +18,7 @@ ACEnemy::ACEnemy()
 	CHelpers::CreateActorComponent<UCPP_StateComponent>(this, &State, "State");
 	CHelpers::CreateActorComponent<UCPP_MontageComponent>(this,&Montage,"Montage");
 	CHelpers::CreateActorComponent<UCPP_WeaponComponent>(this,&Weapon,"Weapon");
+	CHelpers::CreateComponent<UWidgetComponent>(this,&HealthBar,"HealthBar",GetMesh());	
 	
 	GetMesh()->SetRelativeLocation(FVector(0, 0, -90));
 	GetMesh()->SetRelativeRotation(FRotator(0, -90, 0));
@@ -28,6 +31,13 @@ ACEnemy::ACEnemy()
 	CHelpers::GetClass<UAnimInstance>(&animInstance, "AnimBlueprint'/Game/BP_CAnimInstance.BP_CAnimInstance_C'");
 	GetMesh()->SetAnimInstanceClass(animInstance);
 
+	//UI
+	TSubclassOf<UCPP_UserWidget_Health> healthClass;
+	CHelpers::GetClass<UCPP_UserWidget_Health>(&healthClass,"WidgetBlueprint'/Game/Widget/WB_CWidget_Health.WB_CWidget_Health_C'");
+	//HealthBar->SetWidgetClass();
+	HealthBar->SetRelativeLocation(FVector(0,0,200));
+	HealthBar->SetDrawSize(FVector2D(200,50));
+	HealthBar->SetWidgetSpace(EWidgetSpace::Screen);
 }
 
 void ACEnemy::BeginPlay()
@@ -47,6 +57,11 @@ void ACEnemy::BeginPlay()
 		count++;
 	}
 	Change_Character_Color(OriginColor);
+
+	//UI
+	HealthBar->InitWidget();//위젯 설정 : 가장 기본적인 틱으로 사용
+	Cast<UCPP_UserWidget_Health>(HealthBar->GetUserWidgetObject())->UpdateHealth(Status->GetHP(),Status->GetMaxHp());
+	Cast<UCPP_UserWidget_Health>(HealthBar->GetUserWidgetObject())->UpdateCharacterName(GetName());
 }
 
 void ACEnemy::OnStateTypeChanged(EStateType InType)
@@ -100,6 +115,9 @@ void ACEnemy::Hitted()
 		State->SetDeadMode();
 		return;
 	}
+
+	Cast<UCPP_UserWidget_Health>(HealthBar->GetUserWidgetObject())->UpdateHealth(Status->GetHP(),Status->GetMaxHp());
+	
 	FVector start = GetActorLocation();
 	FVector target = Damaged.EventInstigator->GetPawn()->GetActorLocation();
 

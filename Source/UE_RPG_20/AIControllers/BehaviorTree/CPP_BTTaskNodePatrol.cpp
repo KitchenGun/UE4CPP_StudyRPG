@@ -26,13 +26,16 @@ EBTNodeResult::Type UCPP_BTTaskNodePatrol::ExecuteTask(UBehaviorTreeComponent& O
 void UCPP_BTTaskNodePatrol::TickTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory, float DeltaSeconds)
 {
 	Super::TickTask(OwnerComp, NodeMemory, DeltaSeconds);
+	
 	ACPP_AIController* controller = Cast<ACPP_AIController>(OwnerComp.GetOwner());
 	ACPP_EnemyAI* ai = Cast<ACPP_EnemyAI>(controller->GetPawn());
 	UCPP_PatrolComponent* patrol = CHelpers::GetComponent<UCPP_PatrolComponent>(ai);
+	
 	FVector location;
 	float distance;
+	
 	patrol->GetMoveTo(location,distance);
-	controller->MoveToLocation(location,distance,false);
+	
 	EPathFollowingRequestResult::Type type = controller->MoveToLocation(location,distance,false);
 	if(type == EPathFollowingRequestResult::Failed)
 	{
@@ -42,7 +45,7 @@ void UCPP_BTTaskNodePatrol::TickTask(UBehaviorTreeComponent& OwnerComp, uint8* N
 	if(type == EPathFollowingRequestResult::AlreadyAtGoal)
 	{
 		patrol->UpdateNextIndex();
-		FinishLatentTask(OwnerComp,EBTNodeResult::Failed);
+		FinishLatentTask(OwnerComp,EBTNodeResult::Succeeded);
 	}
 	
 }

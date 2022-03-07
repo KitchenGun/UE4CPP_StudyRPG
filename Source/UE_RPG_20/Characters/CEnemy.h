@@ -24,6 +24,10 @@ protected:
 	class UCPP_StateComponent* State;
 	UPROPERTY(VisibleDefaultsOnly)
 	class UCPP_WeaponComponent* Weapon;
+
+	UPROPERTY(VisibleDefaultsOnly)
+	class UWidgetComponent* HealthBar;
+	
 public:
 	ACEnemy();
 
