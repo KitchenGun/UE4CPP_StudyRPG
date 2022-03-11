@@ -56,6 +56,9 @@ ACPlayer::ACPlayer()
 void ACPlayer::BeginPlay()
 {
 	Super::BeginPlay();
+
+	UGameplayStatics::GetPlayerController(GetWorld(),0)->SetInputMode(FInputModeGameOnly());
+	UGameplayStatics::GetPlayerController(GetWorld(),0)->bShowMouseCursor = false;
 	
 	//FActorSpawnParameters params;
 	//params.Owner = this;
