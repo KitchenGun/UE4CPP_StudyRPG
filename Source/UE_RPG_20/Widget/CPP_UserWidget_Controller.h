@@ -16,6 +16,7 @@ private:
 	class UCanvasPanel* CanvasPanel_Widget;
 	
 	void ResetInputMode(bool bForceChange=false);
+	void ChangeInputMode(EInputModeType inputMode);
 	void SaveWidgetPosition(const class UCPP_UserWidget_Closable* closable);
 	
 public:
@@ -40,7 +41,7 @@ private:
 	class APlayerController* PlayerController;
 	EInputModeType DefaultInputMode;
 	
-	TArray<class UCPP_UserWidget_Closable> AllocatedClosable;
+	TArray<class UCPP_UserWidget_Closable*> AllocatedClosable;
 	TArray<class UUserWidget*> AllocatedWidget;
 	TMap<FString,FVector2D> PrevClosedWndPositions;
 	
