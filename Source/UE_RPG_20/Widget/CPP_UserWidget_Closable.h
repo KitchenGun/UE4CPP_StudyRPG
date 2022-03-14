@@ -49,7 +49,12 @@ protected:
 protected:
 	UPROPERTY(meta =(BindWidget))
 	class UButton* CloseButton;
+private:
+	UPROPERTY(meta=(BindWidget))
+	class UCPP_UserWidget_DragTitle* DragTitle;
+	
 
+	
 public:
 	FWndEventSignature OnWndCloseEvent;
 protected:

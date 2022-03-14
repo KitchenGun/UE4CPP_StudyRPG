@@ -3,11 +3,17 @@
 #include "Components/Button.h"
 #include "Components/CanvasPanelSlot.h"
 #include "CPP_UserWidget_Controller.h"
+#include "Title/CPP_UserWidget_DragTitle.h"
 
 void UCPP_UserWidget_Closable::NativeConstruct()
 {
 	Super::NativeConstruct();
-	SetCloseButton(CloseButton);
+	WndSize = FVector2D(500.0f,600.0f);
+	DragTitle->SetTargetWidget(this);
+	//¶÷´Ù
+	DragTitle->OnDraggingStart.AddLambda([this](){WidgetController->SetHighestPriorityWidget(this);});
+	
+	SetCloseButton(DragTitle->GetCloseButton());
 }
 
 UCPP_UserWidget_Closable* UCPP_UserWidget_Closable::CreateChildClosableWidget(
@@ -29,7 +35,7 @@ UCPP_UserWidget_Closable* UCPP_UserWidget_Closable::CreateChildClosableWidget(
 
 void UCPP_UserWidget_Closable::SetCloseButton(UButton* closeButton)
 {
-	closeButton->OnClicked.AddDynamic(this,&UCPP_UserWidget_Closable::CloseThisWidget);
+	(CloseButton = closeButton)->OnClicked.AddDynamic(this,&UCPP_UserWidget_Closable::CloseThisWidget);
 }
 
 void UCPP_UserWidget_Closable::CloseThisWidget()
