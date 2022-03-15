@@ -47,10 +47,10 @@ public:
 protected:
 	virtual void NativeConstruct() override;
 protected:
-	UPROPERTY(meta =(BindWidget))
+	UPROPERTY()
 	class UButton* CloseButton;
 private:
-	UPROPERTY(meta=(BindWidget))
+	UPROPERTY(meta =(BindWidget))
 	class UCPP_UserWidget_DragTitle* DragTitle;
 	
 
