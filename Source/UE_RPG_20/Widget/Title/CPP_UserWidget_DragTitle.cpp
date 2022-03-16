@@ -35,10 +35,10 @@ void UCPP_UserWidget_DragTitle::DragWidget()
 	FVector2D mousePosition = UWidgetLayoutLibrary::GetMousePositionOnViewport(this);
 	UCanvasPanelSlot* slot = Cast<UCanvasPanelSlot>(TargetWidget->Slot);
 
-	slot->SetPosition(PrevWidgetPosition+(mousePosition-PrevWidgetPosition));
+	slot->SetPosition(PrevWidgetPosition+(mousePosition-PrevInputPosition));
 	
 	PrevInputPosition = mousePosition;
-	PrevWidgetPosition = Cast<UCanvasPanelSlot>(TargetWidget->Slot)->GetPosition();
+	PrevWidgetPosition = slot->GetPosition();
 	
 }
 

@@ -11,6 +11,8 @@
 #include "Component/CPP_StatusComponent.h"
 #include "Component/CPP_StateComponent.h"
 #include "Weapon/CPP_WeaponComponent.h"
+
+#include "Component/CPP_WidgetComponent.h"
 //#include "CPP_Sword.h"
 
 
@@ -22,6 +24,9 @@ ACPlayer::ACPlayer()
 	CHelpers::CreateActorComponent<UCPP_StatusComponent>(this, &Status, "Status");
 	CHelpers::CreateActorComponent<UCPP_StateComponent>(this, &State, "State");
 	CHelpers::CreateActorComponent<UCPP_WeaponComponent>(this,&Weapon,"Weapon");
+
+	CHelpers::CreateActorComponent<UCPP_WidgetComponent>(this,&Widget,"Widget");
+	
 
 
 	bUseControllerRotationYaw = false;

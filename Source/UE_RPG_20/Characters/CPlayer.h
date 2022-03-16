@@ -35,6 +35,8 @@ private:
 	class UCPP_StateComponent* State;
 	UPROPERTY(VisibleDefaultsOnly)
 	class UCPP_WeaponComponent* Weapon;
+	UPROPERTY(VisibleDefaultsOnly)
+	class UCPP_WidgetComponent* Widget;
 public:
 	ACPlayer();
 
