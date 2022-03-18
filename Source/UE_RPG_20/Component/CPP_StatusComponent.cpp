@@ -12,12 +12,18 @@ void UCPP_StatusComponent::AddHealth(float InAmount)
 {
 	Health += InAmount;
 	Health = FMath::Clamp(Health, 0.0f, MaxHealth);
+
+	if(OnChangeHPEvent.IsBound())
+		OnChangeHPEvent.Broadcast(Health/MaxHealth);
 }
 
 void UCPP_StatusComponent::SubHealth(float InAmount)
 {
 	Health -= InAmount;
 	Health = FMath::Clamp(Health, 0.0f, MaxHealth);
+
+	if(OnChangeHPEvent.IsBound())
+		OnChangeHPEvent.Broadcast(Health/MaxHealth);
 }
 
 void UCPP_StatusComponent::SetSpeed(ESpeedType InType)

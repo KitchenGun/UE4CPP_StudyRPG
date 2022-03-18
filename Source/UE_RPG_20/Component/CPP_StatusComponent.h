@@ -13,6 +13,8 @@ enum class ESpeedType : uint8
 	Max
 };
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnChangeStatus,float, value);
+
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class UE_RPG_20_API UCPP_StatusComponent : public UActorComponent
 {
@@ -56,4 +58,7 @@ private:
 	bool bCanMove = true;
 	float Health;
 	bool bFixedCamera;
+
+public:
+	FOnChangeStatus OnChangeHPEvent;
 };
