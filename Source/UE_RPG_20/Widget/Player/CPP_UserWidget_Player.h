@@ -10,7 +10,7 @@ class UE_RPG_20_API UCPP_UserWidget_Player : public UUserWidget
 	GENERATED_BODY()
 private:
 	UPROPERTY(meta=(BindWidget))
-	class UCPP_UserWidget_PlayerState* PlayerState;
+	class UCPP_UserWidget_PlayerState* Player_State;
 	
 protected:
 	virtual void NativeConstruct() override;
@@ -18,6 +18,6 @@ protected:
 public:
 	FORCEINLINE UCPP_UserWidget_PlayerState* GetPlayerState()
 	{
-		return PlayerState;
+		return Player_State;
 	}
 };

@@ -9,7 +9,7 @@
 UCPP_WidgetComponent::UCPP_WidgetComponent()
 {
 	CHelpers::GetClass<UCPP_UserWidget_Controller>(&WidgetControllerClass,"WidgetBlueprint'/Game/Widget/WB_CWidget_Controller.WB_CWidget_Controller_C'");
-	CHelpers::GetClass<UCPP_UserWidget_Player>(&WidgetPlayerStateClass,"WidgetBlueprint'/Game/Widget/Player/WB_CWidget_PlayerState.WB_CWidget_PlayerState_C'");
+	CHelpers::GetClass<UCPP_UserWidget_Player>(&WidgetPlayerStateClass,"WidgetBlueprint'/Game/Widget/Player/WB_CWidget_Player.WB_CWidget_Player_C'");
 }
 
 
@@ -25,8 +25,7 @@ void UCPP_WidgetComponent::BeginPlay()
 
 	Widget_Player = CreateWidget<UCPP_UserWidget_Player>(playerController,WidgetPlayerStateClass);
 	
-	WidgetController->AddChildWidget(Widget_Player,EInputModeType::IM_GameOnly,false,
-		500.0f,210.0f);
+	WidgetController->AddChildWidget(Widget_Player,EInputModeType::IM_GameOnly,false);
 }
 
 

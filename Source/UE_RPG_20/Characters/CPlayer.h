@@ -45,7 +45,7 @@ protected:
 
 public:	
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
+	virtual float TakeDamage(float DamageAmount,struct FDamageEvent const& DamageEvent, class AController* EventInstigator,AActor* DamageCauser) override;
 private:
 	void OnMoveForward(float InAxis);
 	void OnMoveRight(float InAxis);

@@ -13,8 +13,11 @@ public:
 	FText Name;
 private:
 	void SetLevel(int Level);
+	UFUNCTION()
 	void SetHpPercent(float percent);
+	UFUNCTION()
 	void SetMpPercent(float percent);
+	UFUNCTION()
 	void SetExpPercent(float percent);
 	
 protected:

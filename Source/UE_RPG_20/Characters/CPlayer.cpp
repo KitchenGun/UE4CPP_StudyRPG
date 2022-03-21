@@ -88,6 +88,13 @@ void ACPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	PlayerInputComponent->BindAction("SubAction",IE_Released,this,&ACPlayer::OnSubAction_Released);
 }
 
+float ACPlayer::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator,
+	AActor* DamageCauser)
+{
+	Status->SubHealth(DamageAmount);
+	return Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
+}
+
 void ACPlayer::OnMoveForward(float InAxis)
 {
 	//if(p == false) return; 와 같은 의미
