@@ -37,9 +37,9 @@ private:
 
 	UPROPERTY(meta=(BindWidget))
 	class UButton* Button_Minus;
-
 protected:
 	virtual void NativeConstruct() override;
+public:
 
 	void InitializeRow(FStatusRowData data);
 	FORCEINLINE void SetStat(int32 stat) {Stat = stat;}

@@ -15,11 +15,13 @@ private:
 	
 	TSubclassOf<class UCPP_UserWidget_Controller> WidgetControllerClass;
 	TSubclassOf<class UCPP_UserWidget_Player> WidgetPlayerStateClass;
-
+	TSubclassOf<class UCPP_UserWidget_Status> StatusWidgetClass;
 	UPROPERTY(VisibleDefaultsOnly)
 	class UCPP_UserWidget_Controller* Widget_Controller;
 	UPROPERTY(VisibleDefaultsOnly)
 	class UCPP_UserWidget_Player* Widget_Player;
+	UPROPERTY(VisibleDefaultsOnly)
+	class UCPP_UserWidget_Status* StatusWidget;
 public:	
 	UCPP_WidgetComponent();
 
@@ -27,5 +29,10 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
+	void OpenStatus();
+
+	void CloseStatus();
+public:
+	void ToggleStatus();
 	
 };

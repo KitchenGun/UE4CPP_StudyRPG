@@ -13,6 +13,18 @@ enum class ESpeedType : uint8
 	Max
 };
 
+UENUM()
+enum EStatusType
+{
+	Bag,
+	Battery,
+	Book,
+	Bomb,
+	Gun,
+	HP,
+	Max
+};
+
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnChangeStatus,float, value);
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
