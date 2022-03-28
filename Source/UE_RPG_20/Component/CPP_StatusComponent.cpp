@@ -17,6 +17,20 @@ void UCPP_StatusComponent::AddHealth(float InAmount)
 		OnChangeHPEvent.Broadcast(Health/MaxHealth);
 }
 
+void UCPP_StatusComponent::AddMaxHealth()
+{
+	MaxHealth+=100;
+	if(OnChangeHPEvent.IsBound())
+		OnChangeHPEvent.Broadcast(Health/MaxHealth);
+}
+
+void UCPP_StatusComponent::SubMaxHealth()
+{
+	MaxHealth-=100;
+	if(OnChangeHPEvent.IsBound())
+		OnChangeHPEvent.Broadcast(Health/MaxHealth);
+}
+
 void UCPP_StatusComponent::SubHealth(float InAmount)
 {
 	Health -= InAmount;

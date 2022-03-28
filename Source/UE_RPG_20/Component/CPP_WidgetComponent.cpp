@@ -34,7 +34,7 @@ void UCPP_WidgetComponent::OpenStatus()
 	if(IsValid(StatusWidget))
 		return;
 	
-	StatusWidget = Cast<UCPP_UserWidget_Status>(Widget_Controller->CreateClosable(
+	StatusWidget = Cast<UCPP_UserWidget_Status>(WidgetController->CreateClosable(
 		StatusWidgetClass,true,EInputModeType::IM_GameAndUI
 	));
 	//람다 -> closable 전달해주는 것으로 현재 아무것도 안하고있음

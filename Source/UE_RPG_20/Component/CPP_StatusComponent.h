@@ -58,6 +58,11 @@ public:
 	UCPP_StatusComponent();
 
 	void AddHealth(float InAmount);
+	UFUNCTION()
+	void AddMaxHealth();
+	UFUNCTION()
+	void SubMaxHealth();
+
 	void SubHealth(float InAmount);
 
 	void SetSpeed(ESpeedType InType);

@@ -30,12 +30,15 @@ void UCPP_UserWidget_Controller::ChangeInputMode(EInputModeType inputMode)
 	{
 	case EInputModeType::IM_GameOnly:
 		PlayerController->SetInputMode(FInputModeGameOnly());
+		PlayerController->bShowMouseCursor = false;
 		break;
 	case EInputModeType::IM_GameAndUI:
 		PlayerController->SetInputMode(FInputModeGameAndUI());
+		PlayerController->bShowMouseCursor = true;
 		break;
 	case EInputModeType::IM_UIOnly:
 		PlayerController->SetInputMode(FInputModeUIOnly());
+		PlayerController->bShowMouseCursor = true;
 		break;
 	}
 }
@@ -64,6 +67,7 @@ UCPP_UserWidget_Closable* UCPP_UserWidget_Controller::CreateClosable(TSubclassOf
 	float anchorMinX, float anchorMinY, float anchorMaxX, float anchorMaxY)
 {
 	UCPP_UserWidget_Closable* newClosable = CreateWidget<UCPP_UserWidget_Closable>(this,wndClass);
+
 	newClosable->SetWidgetController(this);
 
 	AllocatedClosable.Add(newClosable);
